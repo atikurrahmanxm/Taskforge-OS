@@ -1,5 +1,15 @@
 [
   {
+    "id": 2,
+    "title": "Idempotency in Distributed APIs",
+    "category": "System Design",
+    "summary": "Ensures that performing an operation multiple times produces the same outcome as doing it once.",
+    "takeaway": "Use unique client-generated Idempotency Keys in HTTP headers to prevent duplicate charges or actions.",
+    "file": "notes/unlocked_insights/insight_002_idempotency_in_distributed_apis.md",
+    "unlockedAt": "2026-09-21 01:48",
+    "xpAwarded": 25
+  },
+  {
     "id": 1,
     "title": "Two-Pointer Technique",
     "category": "Algorithms",
