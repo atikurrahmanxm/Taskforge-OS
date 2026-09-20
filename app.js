@@ -1,13 +1,19 @@
-// DevLog Hub - Dashboard Logic
+// DevLog Hub - Dashboard Logic with Auto-Evolution Integration
 document.addEventListener("DOMContentLoaded", () => {
-  // Initial fallback states
+  // Fallbacks in case running directly from local file://
   const defaultProfile = {
     username: "Developer",
     goal: "Consistent Daily Contributions & Learning",
     dailyTargetPushes: 4,
     currentStreak: 1,
-    todayPushes: 2,
-    totalContributions: 14
+    todayPushes: 1,
+    totalContributions: 2,
+    xp: 25,
+    level: 1,
+    rankTitle: "Terminal Novice",
+    badges: [
+      { id: "genesis", icon: "🌱", name: "Genesis Pulse", desc: "First push into the project" }
+    ]
   };
 
   const defaultTasks = [
@@ -17,68 +23,177 @@ document.addEventListener("DOMContentLoaded", () => {
     { id: 4, title: "Evening wrap-up, commit review, and reflection", session: "Session 4", completed: false }
   ];
 
-  const defaultLogs = [
+  const defaultInsights = [
     {
-      id: "log-001",
-      topic: "Initialized DevLog Hub for GitHub Growth",
-      timestamp: "2026-09-21 01:25",
-      summary: "Set up the private repository, dashboard, and daily contribution routine.",
-      tags: ["git", "setup", "habits"]
-    },
-    {
-      id: "log-002",
-      topic: "Configured 4-Push Daily Blueprint",
-      timestamp: "2026-09-21 01:30",
-      summary: "Created automated python and batch scripts for 1-click commits.",
-      tags: ["automation", "cli", "python"]
+      id: 1,
+      title: "Two-Pointer Technique",
+      category: "Algorithms",
+      summary: "Optimizes searching pairs in sorted arrays from O(n^2) to O(n) by using two pointers moving inward.",
+      takeaway: "Always sort first or verify sorting before applying the two-pointer collision strategy.",
+      unlockedAt: "2026-09-21 01:39",
+      code: `def two_sum_sorted(nums, target):
+    left, right = 0, len(nums) - 1
+    while left < right:
+        curr = nums[left] + nums[right]
+        if curr == target:
+            return [left, right]
+        elif curr < target:
+            left += 1
+        else:
+            right -= 1
+    return []`
     }
   ];
 
-  // Load from localStorage or defaults
+  const defaultLogs = [
+    {
+      id: "pulse-001",
+      topic: "Unlocked: Two-Pointer Technique",
+      timestamp: "2026-09-21 01:39",
+      summary: "Optimizes searching pairs in sorted arrays from O(n^2) to O(n) (+25 XP gained)",
+      tags: ["algorithms", "auto-pulse", "lvl-1"]
+    }
+  ];
+
   let profile = JSON.parse(localStorage.getItem("devlog_profile")) || defaultProfile;
   let tasks = JSON.parse(localStorage.getItem("devlog_tasks")) || defaultTasks;
+  let insights = JSON.parse(localStorage.getItem("devlog_insights")) || defaultInsights;
   let logs = JSON.parse(localStorage.getItem("devlog_logs")) || defaultLogs;
 
-  // Try fetching external JSON if served via HTTP
+  // Sync from backend JSON files
   async function syncFromFiles() {
     try {
       const pRes = await fetch("data/profile.json");
       if (pRes.ok) {
         const pData = await pRes.json();
-        profile.currentStreak = pData.currentStreak || profile.currentStreak;
-        profile.totalContributions = pData.totalContributions || profile.totalContributions;
+        profile = { ...profile, ...pData };
       }
       const tRes = await fetch("data/tasks.json");
       if (tRes.ok) {
         tasks = await tRes.json();
       }
+      const iRes = await fetch("data/insights.json");
+      if (iRes.ok) {
+        insights = await iRes.json();
+      }
       const lRes = await fetch("data/logs.json");
       if (lRes.ok) {
         logs = await lRes.json();
       }
-      saveAndRender();
     } catch {
-      // Running from file:// protocol, using localStorage data
-      saveAndRender();
+      // Running from file:// protocol without local HTTP server
     }
+    saveAndRender();
   }
 
   function saveAndRender() {
     localStorage.setItem("devlog_profile", JSON.stringify(profile));
     localStorage.setItem("devlog_tasks", JSON.stringify(tasks));
+    localStorage.setItem("devlog_insights", JSON.stringify(insights));
     localStorage.setItem("devlog_logs", JSON.stringify(logs));
 
-    renderHeader();
+    renderXPAndHeader();
+    renderBadges();
+    renderInsights();
     renderTasks();
     renderLogs();
     renderContribGrid();
   }
 
-  // Render Header
-  function renderHeader() {
+  // Render Header & XP Progress
+  function renderXPAndHeader() {
+    const xp = profile.xp || 25;
+    const lvl = profile.level || 1;
+    const rankTitle = profile.rankTitle || "Terminal Novice";
+
+    // Level calculation
+    const levels = [
+      [0, 99, 1],
+      [100, 249, 2],
+      [250, 499, 3],
+      [500, 999, 4],
+      [1000, 999999, 5]
+    ];
+    let nextXP = 100;
+    let minXP = 0;
+    for (const [minX, maxX, l] of levels) {
+      if (xp >= minX && xp <= maxX) {
+        minXP = minX;
+        nextXP = maxX + 1;
+        break;
+      }
+    }
+
+    const pct = Math.min(100, Math.round(((xp - minXP) / (nextXP - minXP)) * 100));
+
+    // Elements
     document.getElementById("streak-count").textContent = profile.currentStreak || 1;
-    const completedCount = tasks.filter(t => t.completed).length;
-    document.getElementById("today-pushes").textContent = completedCount;
+    document.getElementById("today-pushes").textContent = profile.todayPushes || 1;
+    document.getElementById("rank-badge").textContent = `🎖️ Level ${lvl}`;
+    document.getElementById("rank-title").textContent = rankTitle;
+    document.getElementById("current-xp").textContent = xp;
+    document.getElementById("next-xp").textContent = nextXP;
+    document.getElementById("xp-progress-fill").style.width = `${pct}%`;
+    document.getElementById("xp-percentage-text").textContent = `${pct}% towards Level ${lvl + 1}`;
+  }
+
+  // Render Badges
+  function renderBadges() {
+    const rack = document.getElementById("badges-rack");
+    rack.innerHTML = "";
+
+    const badges = profile.badges && profile.badges.length > 0 ? profile.badges : [
+      { id: "genesis", icon: "🌱", name: "Genesis Pulse", desc: "First push into the project" }
+    ];
+
+    badges.forEach(b => {
+      const div = document.createElement("div");
+      div.className = "badge-item";
+      div.innerHTML = `
+        <span class="badge-icon">${b.icon}</span>
+        <div>
+          <div class="badge-name">${escapeHtml(b.name)}</div>
+          <div class="badge-desc">${escapeHtml(b.desc)}</div>
+        </div>
+      `;
+      rack.appendChild(div);
+    });
+  }
+
+  // Render Insights
+  function renderInsights() {
+    const container = document.getElementById("insights-container");
+    container.innerHTML = "";
+
+    const countBadge = document.getElementById("unlocked-count-badge");
+    if (countBadge) {
+      countBadge.textContent = `${insights.length} Unlocked`;
+    }
+
+    if (insights.length === 0) {
+      container.innerHTML = `<p style="color: var(--text-muted); font-size: 0.9rem;">Run quick-push.bat to unlock your first concept!</p>`;
+      return;
+    }
+
+    insights.slice(0, 4).forEach(item => {
+      const card = document.createElement("div");
+      card.className = "insight-card";
+      card.innerHTML = `
+        <div class="insight-top">
+          <span class="insight-badge">#${item.id} • ${escapeHtml(item.category)}</span>
+          <span class="insight-time">⚡ +25 XP</span>
+        </div>
+        <h3 class="insight-title">${escapeHtml(item.title)}</h3>
+        <p class="insight-summary">${escapeHtml(item.summary)}</p>
+        <div class="insight-takeaway">💡 Takeaway: ${escapeHtml(item.takeaway)}</div>
+        ${item.code ? `
+          <div class="insight-code-wrap">
+            <pre class="insight-code"><code>${escapeHtml(item.code)}</code></pre>
+          </div>
+        ` : ""}
+      `;
+      container.appendChild(card);
+    });
   }
 
   // Render Tasks
@@ -87,7 +202,7 @@ document.addEventListener("DOMContentLoaded", () => {
     taskList.innerHTML = "";
 
     const completedCount = tasks.filter(t => t.completed).length;
-    document.getElementById("task-stats-text").textContent = `${completedCount} / ${tasks.length} Completed`;
+    document.getElementById("task-stats-text").textContent = `${completedCount} / ${tasks.length} Done`;
 
     tasks.forEach(t => {
       const li = document.createElement("li");
@@ -105,7 +220,7 @@ document.addEventListener("DOMContentLoaded", () => {
       taskList.appendChild(li);
     });
 
-    // Checkbox and label toggle
+    // Checkbox and label click
     taskList.querySelectorAll(".task-checkbox, .task-label").forEach(el => {
       el.addEventListener("click", (e) => {
         if (e.target.tagName.toLowerCase() === "span" || e.target.tagName.toLowerCase() === "input") {
@@ -113,7 +228,7 @@ document.addEventListener("DOMContentLoaded", () => {
           const task = tasks.find(item => item.id === id);
           if (task) {
             task.completed = !task.completed;
-            showToast(task.completed ? "Task completed! Remember to push." : "Task reopened.");
+            showToast(task.completed ? "Task completed! Run quick-push.bat to sync." : "Task reopened.");
             saveAndRender();
           }
         }
@@ -148,7 +263,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     input.value = "";
     saveAndRender();
-    showToast("New task added! Run python log.py to push.");
+    showToast("Goal added! Double-click quick-push.bat to push.");
   });
 
   // Render Logs
@@ -156,65 +271,29 @@ document.addEventListener("DOMContentLoaded", () => {
     const logsList = document.getElementById("logs-list");
     logsList.innerHTML = "";
 
-    logs.slice(0, 6).forEach(log => {
+    logs.slice(0, 5).forEach(log => {
       const entry = document.createElement("div");
       entry.className = "log-entry";
-      const tagsHtml = (log.tags || []).map(tag => `<span class="log-tag">#${escapeHtml(tag)}</span>`).join("");
-
       entry.innerHTML = `
         <div class="log-entry-header">
           <span class="log-title">${escapeHtml(log.topic)}</span>
           <span class="log-time">${escapeHtml(log.timestamp)}</span>
         </div>
         <p class="log-summary">${escapeHtml(log.summary)}</p>
-        <div class="log-tags">${tagsHtml}</div>
       `;
       logsList.appendChild(entry);
     });
   }
-
-  // Quick Log Form
-  document.getElementById("quick-log-form").addEventListener("submit", (e) => {
-    e.preventDefault();
-    const topic = document.getElementById("log-topic").value.trim();
-    const summary = document.getElementById("log-summary").value.trim();
-    const rawTags = document.getElementById("log-tags").value.trim();
-    if (!topic || !summary) return;
-
-    const tags = rawTags ? rawTags.split(",").map(t => t.trim()) : ["general"];
-    const now = new Date();
-    const timeStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-
-    logs.unshift({
-      id: `log-${Date.now()}`,
-      topic: topic,
-      timestamp: timeStr,
-      summary: summary,
-      tags: tags
-    });
-
-    profile.totalContributions = (profile.totalContributions || 0) + 1;
-
-    document.getElementById("log-topic").value = "";
-    document.getElementById("log-summary").value = "";
-    document.getElementById("log-tags").value = "";
-
-    saveAndRender();
-    showToast("Study log saved! Run 'quick-push.bat' to commit & push.");
-  });
 
   // Render simulated GitHub Contribution squares
   function renderContribGrid() {
     const grid = document.getElementById("contrib-grid");
     grid.innerHTML = "";
 
-    // Generate 14 columns x 5 rows = 70 days preview
-    const levels = [0, 1, 2, 3, 4];
     for (let i = 0; i < 70; i++) {
       const cell = document.createElement("div");
-      // Give recent days some green activity
       let lvl = 0;
-      if (i > 50) {
+      if (i > 58) {
         lvl = (i % 4) + 1;
       } else if (i % 3 === 0) {
         lvl = (i % 3) + 1;
@@ -234,14 +313,13 @@ document.addEventListener("DOMContentLoaded", () => {
         navigator.clipboard.writeText(cmd).then(() => {
           showToast(`Copied: ${cmd}`);
         }).catch(() => {
-          // fallback
           prompt("Copy this command:", cmd);
         });
       }
     }
   });
 
-  // Refresh button
+  // Refresh / Sync button
   document.getElementById("refresh-btn").addEventListener("click", () => {
     syncFromFiles();
     showToast("Dashboard synchronized!");

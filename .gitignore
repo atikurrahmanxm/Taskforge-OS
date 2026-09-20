@@ -24,3 +24,4 @@ Desktop.ini
 # Temporary files
 *.tmp
 *.log
+data/.last_commit_msg

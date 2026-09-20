@@ -5,7 +5,7 @@
   "currentStreak": 1,
   "bestStreak": 1,
   "lastActiveDate": "2026-09-21",
-  "totalContributions": 5,
+  "totalContributions": 6,
   "skills": [
     "JavaScript",
     "Python",
@@ -16,5 +16,17 @@
     "notesLogged": 1,
     "tasksCompleted": 1,
     "snippetsSaved": 1
-  }
+  },
+  "todayPushes": 1,
+  "xp": 25,
+  "level": 1,
+  "rankTitle": "Terminal Novice",
+  "badges": [
+    {
+      "id": "genesis",
+      "icon": "🌱",
+      "name": "Genesis Pulse",
+      "desc": "First push into the project"
+    }
+  ]
 }
