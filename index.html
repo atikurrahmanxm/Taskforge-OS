@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevLog Hub | Daily Contribution & Streak Tracker</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Top Navigation -->
+    <header class="navbar">
+      <div class="brand">
+        <span class="brand-icon">🌱</span>
+        <div>
+          <h1 class="brand-title">DevLog Hub</h1>
+          <p class="brand-subtitle">Personal Streak & GitHub Contribution Dashboard</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <div class="streak-badge">
+          <span class="flame">🔥</span>
+          <span id="streak-count">1</span> Day Streak
+        </div>
+        <div class="daily-target-badge">
+          🎯 Target: <span id="today-pushes">1</span>/4 Pushes Today
+        </div>
+        <button id="refresh-btn" class="btn btn-secondary" title="Sync data">🔄 Refresh</button>
+      </div>
+    </header>
+
+    <!-- Main Grid Layout -->
+    <main class="dashboard-grid">
+      <!-- Left Column: Daily Roadmap & Tasks -->
+      <section class="col-main">
+        <!-- 4 Daily Sessions Card -->
+        <div class="card session-planner-card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">📅 4-Push Daily Routine</h2>
+              <p class="card-desc">Follow this structured routine to effortlessly push 3–4 times daily:</p>
+            </div>
+            <span class="tag tag-success">Daily Blueprint</span>
+          </div>
+
+          <div class="sessions-grid">
+            <div class="session-box" data-session="1">
+              <div class="session-top">
+                <span class="session-badge">01. Morning</span>
+                <span class="session-time">09:00 - 10:00</span>
+              </div>
+              <h3>Plan & Goals</h3>
+              <p>Set today's topics, review goals, update task checklist.</p>
+              <code>git commit -m "docs(plan): morning roadmap"</code>
+              <button class="btn btn-sm btn-outline copy-cmd-btn" data-cmd="python log.py --push &quot;docs(plan): morning roadmap&quot;">Copy Push Cmd</button>
+            </div>
+
+            <div class="session-box" data-session="2">
+              <div class="session-top">
+                <span class="session-badge">02. Mid-Day</span>
+                <span class="session-time">13:00 - 14:00</span>
+              </div>
+              <h3>Notes & Concepts</h3>
+              <p>Log what you read, new tools, libraries, or architecture notes.</p>
+              <code>git commit -m "feat(notes): mid-day study log"</code>
+              <button class="btn btn-sm btn-outline copy-cmd-btn" data-cmd="python log.py --push &quot;feat(notes): mid-day study log&quot;">Copy Push Cmd</button>
+            </div>
+
+            <div class="session-box" data-session="3">
+              <div class="session-top">
+                <span class="session-badge">03. Afternoon</span>
+                <span class="session-time">17:00 - 18:00</span>
+              </div>
+              <h3>Code & Snippets</h3>
+              <p>Add a problem solution, reusable helper function, or bugfix.</p>
+              <code>git commit -m "snippet(add): algorithm solution"</code>
+              <button class="btn btn-sm btn-outline copy-cmd-btn" data-cmd="python log.py --push &quot;snippet(add): code practice&quot;">Copy Push Cmd</button>
+            </div>
+
+            <div class="session-box" data-session="4">
+              <div class="session-top">
+                <span class="session-badge">04. Night</span>
+                <span class="session-time">21:00 - 22:30</span>
+              </div>
+              <h3>Review & Reflection</h3>
+              <p>Mark completed tasks, write brief daily reflection, sync streak.</p>
+              <code>git commit -m "chore(review): evening wrap-up"</code>
+              <button class="btn btn-sm btn-outline copy-cmd-btn" data-cmd="python log.py --push &quot;chore(review): daily reflection and wrap-up&quot;">Copy Push Cmd</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Task Manager Card -->
+        <div class="card tasks-card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">✅ Daily Habit & Tasks Checklist</h2>
+              <p class="card-desc">Track tasks for today. Checking them off updates your stats.</p>
+            </div>
+            <div class="task-filter-group">
+              <span id="task-stats-text" class="task-stats-text">1 / 4 Completed</span>
+            </div>
+          </div>
+
+          <div class="task-add-bar">
+            <input type="text" id="new-task-input" placeholder="Add a new task (e.g. Practice Array Two Pointers)...">
+            <select id="new-task-session">
+              <option value="Session 1">Session 1</option>
+              <option value="Session 2" selected>Session 2</option>
+              <option value="Session 3">Session 3</option>
+              <option value="Session 4">Session 4</option>
+            </select>
+            <button id="add-task-btn" class="btn btn-primary">+ Add Task</button>
+          </div>
+
+          <ul id="task-list" class="task-list">
+            <!-- Dynamic task items injected via JavaScript -->
+          </ul>
+        </div>
+
+        <!-- Activity Log Viewer -->
+        <div class="card logs-card">
+          <div class="card-header">
+            <h2 class="card-title">📜 Recent Activity & Study Logs</h2>
+            <button id="add-log-modal-btn" class="btn btn-sm btn-primary">+ New Study Log</button>
+          </div>
+          <div id="logs-list" class="logs-list">
+            <!-- Dynamic log items -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Stats, Simulated Contribution Graph & Helpers -->
+      <section class="col-side">
+        <!-- Contribution Graph Simulation -->
+        <div class="card mini-graph-card">
+          <div class="card-header">
+            <h2 class="card-title">🌿 Contribution Activity</h2>
+            <span class="active-indicator">● Active</span>
+          </div>
+          <p class="card-desc">Simulated preview of your GitHub green squares:</p>
+          <div class="contrib-grid" id="contrib-grid">
+            <!-- Injected by app.js -->
+          </div>
+          <div class="graph-legend">
+            <span>Less</span>
+            <div class="legend-cell level-0"></div>
+            <div class="legend-cell level-1"></div>
+            <div class="legend-cell level-2"></div>
+            <div class="legend-cell level-3"></div>
+            <div class="legend-cell level-4"></div>
+            <span>More</span>
+          </div>
+          <div class="private-reminder">
+            ⚠️ <strong>Remember:</strong> In GitHub Profile &gt; <em>Contribution Settings</em>, enable <u>"Include private contributions on my profile"</u>!
+          </div>
+        </div>
+
+        <!-- Quick 1-Click Commit Helper -->
+        <div class="card quick-actions-card">
+          <div class="card-header">
+            <h2 class="card-title">⚡ Quick Commands</h2>
+          </div>
+          <div class="action-items">
+            <div class="action-item">
+              <div class="action-info">
+                <strong>Run Python Automator</strong>
+                <span>Interactive CLI for tasks, snippets, logs & push</span>
+              </div>
+              <button class="btn btn-sm btn-outline copy-cmd-btn" data-cmd="python log.py">Copy</button>
+            </div>
+            <div class="action-item">
+              <div class="action-info">
+                <strong>1-Click Auto Push</strong>
+                <span>Instant commit & push in 3 seconds</span>
+              </div>
+              <button class="btn btn-sm btn-outline copy-cmd-btn" data-cmd=".\quick-push.bat">Copy</button>
+            </div>
+            <div class="action-item">
+              <div class="action-info">
+                <strong>Git Status Check</strong>
+                <span>Check modified files before committing</span>
+              </div>
+              <button class="btn btn-sm btn-outline copy-cmd-btn" data-cmd="git status -s">Copy</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Log Form -->
+        <div class="card quick-log-card">
+          <div class="card-header">
+            <h2 class="card-title">✍️ Fast Log Entry</h2>
+          </div>
+          <form id="quick-log-form">
+            <div class="form-group">
+              <label>Topic / Title</label>
+              <input type="text" id="log-topic" placeholder="e.g. Async JavaScript & Promises" required>
+            </div>
+            <div class="form-group">
+              <label>Key Learnings / Summary</label>
+              <textarea id="log-summary" rows="3" placeholder="What did you learn or accomplish today?" required></textarea>
+            </div>
+            <div class="form-group">
+              <label>Tags (comma separated)</label>
+              <input type="text" id="log-tags" placeholder="js, async, web">
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">💾 Save to Dashboard</button>
+          </form>
+        </div>
+
+        <!-- Repository Setup Guide Link -->
+        <div class="card guide-card">
+          <h3>🔗 GitHub Setup Quick Links</h3>
+          <ol class="guide-steps">
+            <li>Create a new repository on <a href="https://github.com/new" target="_blank" rel="noopener">github.com/new</a> (Choose <strong>Private</strong>).</li>
+            <li>Run <code>git remote add origin &lt;URL&gt;</code></li>
+            <li>Run <code>git push -u origin main</code></li>
+            <li>Turn on <em>Include private contributions</em> in profile settings.</li>
+          </ol>
+        </div>
+      </section>
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">Command copied to clipboard!</div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

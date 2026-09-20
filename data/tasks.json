@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "title": "Setup repository & initial commit",
+    "category": "Git & Workflow",
+    "completed": true,
+    "pushSession": "Session 1 (Morning)",
+    "completedAt": "2026-09-21"
+  },
+  {
+    "id": 2,
+    "title": "Study data structures or new library concepts",
+    "category": "Learning",
+    "completed": false,
+    "pushSession": "Session 2 (Mid-Day)",
+    "completedAt": null
+  },
+  {
+    "id": 3,
+    "title": "Write or test a code snippet / problem solution",
+    "category": "Coding",
+    "completed": false,
+    "pushSession": "Session 3 (Afternoon)",
+    "completedAt": null
+  },
+  {
+    "id": 4,
+    "title": "Review daily learnings & plan tomorrow's goals",
+    "category": "Review",
+    "completed": false,
+    "pushSession": "Session 4 (Night)",
+    "completedAt": null
+  }
+]
