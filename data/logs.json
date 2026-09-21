@@ -1,5 +1,17 @@
 [
   {
+    "id": "pulse-010",
+    "timestamp": "2026-09-22 00:17",
+    "session": "Pulse #3 Today",
+    "topic": "Unlocked: Sliding Window Pattern",
+    "summary": "Maintains a running window over an array to solve sub-array problems in linear O(n) time. (+25 XP gained)",
+    "tags": [
+      "algorithms",
+      "auto-pulse",
+      "lvl-2"
+    ]
+  },
+  {
     "id": "pulse-009",
     "timestamp": "2026-09-22 00:17",
     "session": "Pulse #2 Today",

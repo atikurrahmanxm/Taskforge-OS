@@ -1,5 +1,15 @@
 [
   {
+    "id": 5,
+    "title": "Sliding Window Pattern",
+    "category": "Algorithms",
+    "summary": "Maintains a running window over an array to solve sub-array problems in linear O(n) time.",
+    "takeaway": "Keep track of window state dynamically instead of recalculating from scratch on each shift.",
+    "file": "notes/unlocked_insights/insight_005_sliding_window_pattern.md",
+    "unlockedAt": "2026-09-22 00:17",
+    "xpAwarded": 25
+  },
+  {
     "id": 4,
     "title": "Event Loop & Microtask Queue",
     "category": "JavaScript Core",
