@@ -1,5 +1,15 @@
 [
   {
+    "id": 6,
+    "title": "Circuit Breaker Pattern",
+    "category": "Architecture",
+    "summary": "Prevents catastrophic cascading failures when a downstream microservice is degraded or down.",
+    "takeaway": "Transition states: Closed (healthy) -> Open (failing fast) -> Half-Open (probing).",
+    "file": "notes/unlocked_insights/insight_006_circuit_breaker_pattern.md",
+    "unlockedAt": "2026-09-22 00:18",
+    "xpAwarded": 25
+  },
+  {
     "id": 5,
     "title": "Sliding Window Pattern",
     "category": "Algorithms",

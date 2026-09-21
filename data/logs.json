@@ -1,5 +1,17 @@
 [
   {
+    "id": "pulse-011",
+    "timestamp": "2026-09-22 00:18",
+    "session": "Pulse #4 Today",
+    "topic": "Unlocked: Circuit Breaker Pattern",
+    "summary": "Prevents catastrophic cascading failures when a downstream microservice is degraded or down. (+25 XP gained)",
+    "tags": [
+      "architecture",
+      "auto-pulse",
+      "lvl-2"
+    ]
+  },
+  {
     "id": "pulse-010",
     "timestamp": "2026-09-22 00:17",
     "session": "Pulse #3 Today",
