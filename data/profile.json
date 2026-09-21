@@ -5,7 +5,7 @@
   "currentStreak": 2,
   "bestStreak": 2,
   "lastActiveDate": "2026-09-22",
-  "totalContributions": 8,
+  "totalContributions": 9,
   "skills": [
     "JavaScript",
     "Python",
@@ -17,16 +17,22 @@
     "tasksCompleted": 1,
     "snippetsSaved": 1
   },
-  "todayPushes": 1,
-  "xp": 75,
-  "level": 1,
-  "rankTitle": "Terminal Novice",
+  "todayPushes": 2,
+  "xp": 100,
+  "level": 2,
+  "rankTitle": "Code Crafter",
   "badges": [
     {
       "id": "genesis",
       "icon": "🌱",
       "name": "Genesis Pulse",
       "desc": "First push into the project"
+    },
+    {
+      "id": "level_2",
+      "icon": "🛠️",
+      "name": "Code Crafter",
+      "desc": "Reached Developer Level 2"
     }
   ]
 }

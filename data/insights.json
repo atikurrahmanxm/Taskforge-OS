@@ -1,5 +1,15 @@
 [
   {
+    "id": 4,
+    "title": "Event Loop & Microtask Queue",
+    "category": "JavaScript Core",
+    "summary": "Microtasks (Promises, queueMicrotask) always execute before Macrotasks (setTimeout, setInterval).",
+    "takeaway": "Never starve the macrotask queue with recursive microtask scheduling.",
+    "file": "notes/unlocked_insights/insight_004_event_loop_microtask_queue.md",
+    "unlockedAt": "2026-09-22 00:17",
+    "xpAwarded": 25
+  },
+  {
     "id": 3,
     "title": "Memory Efficient Generators",
     "category": "Python Mastery",

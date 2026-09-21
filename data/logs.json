@@ -1,5 +1,17 @@
 [
   {
+    "id": "pulse-009",
+    "timestamp": "2026-09-22 00:17",
+    "session": "Pulse #2 Today",
+    "topic": "Unlocked: Event Loop & Microtask Queue",
+    "summary": "Microtasks (Promises, queueMicrotask) always execute before Macrotasks (setTimeout, setInterval). (+25 XP gained)",
+    "tags": [
+      "javascript core",
+      "auto-pulse",
+      "lvl-2"
+    ]
+  },
+  {
     "id": "pulse-008",
     "timestamp": "2026-09-22 00:16",
     "session": "Pulse #1 Today",
