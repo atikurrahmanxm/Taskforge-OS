@@ -1,5 +1,17 @@
 [
   {
+    "id": "pulse-008",
+    "timestamp": "2026-09-22 00:16",
+    "session": "Pulse #1 Today",
+    "topic": "Unlocked: Memory Efficient Generators",
+    "summary": "Generators allow processing gigabyte-sized files row-by-row with near-zero RAM overhead using `yield`. (+25 XP gained)",
+    "tags": [
+      "python mastery",
+      "auto-pulse",
+      "lvl-1"
+    ]
+  },
+  {
     "id": "pulse-007",
     "timestamp": "2026-09-21 01:48",
     "session": "Pulse #2 Today",

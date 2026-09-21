@@ -1,5 +1,15 @@
 [
   {
+    "id": 3,
+    "title": "Memory Efficient Generators",
+    "category": "Python Mastery",
+    "summary": "Generators allow processing gigabyte-sized files row-by-row with near-zero RAM overhead using `yield`.",
+    "takeaway": "Prefer generator expressions over list comprehensions when processing streams or large datasets.",
+    "file": "notes/unlocked_insights/insight_003_memory_efficient_generators.md",
+    "unlockedAt": "2026-09-22 00:16",
+    "xpAwarded": 25
+  },
+  {
     "id": 2,
     "title": "Idempotency in Distributed APIs",
     "category": "System Design",
