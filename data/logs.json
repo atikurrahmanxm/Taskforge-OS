@@ -1,5 +1,17 @@
 [
   {
+    "id": "pulse-017",
+    "timestamp": "2026-09-23 22:25",
+    "session": "Pulse #6 Today",
+    "topic": "Unlocked: Composite B-Tree Indexes & Leftmost Prefix",
+    "summary": "Understanding multi-column indexes: an index on (A, B, C) can satisfy queries on A, (A,B), and (A,B,C). (+25 XP gained)",
+    "tags": [
+      "database & devops",
+      "auto-pulse",
+      "lvl-3"
+    ]
+  },
+  {
     "id": "pulse-016",
     "timestamp": "2026-09-23 22:25",
     "session": "Pulse #5 Today",

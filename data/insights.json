@@ -1,5 +1,15 @@
 [
   {
+    "id": 12,
+    "title": "Composite B-Tree Indexes & Leftmost Prefix",
+    "category": "Database & DevOps",
+    "summary": "Understanding multi-column indexes: an index on (A, B, C) can satisfy queries on A, (A,B), and (A,B,C).",
+    "takeaway": "A query filtering only on B or C CANNOT use the index (A, B, C) efficiently.",
+    "file": "notes/unlocked_insights/insight_012_composite_b_tree_indexes_leftmost_prefix.md",
+    "unlockedAt": "2026-09-23 22:25",
+    "xpAwarded": 25
+  },
+  {
     "id": 11,
     "title": "Debounce & Throttle Optimization",
     "category": "JavaScript Core",
