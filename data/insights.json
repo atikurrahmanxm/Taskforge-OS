@@ -1,5 +1,15 @@
 [
   {
+    "id": 15,
+    "title": "Slots for High-Volume Object Optimization",
+    "category": "Python Mastery",
+    "summary": "Using `__slots__` bypasses dynamic `__dict__` allocation, slashing memory usage by ~60% for millions of objects.",
+    "takeaway": "Use `__slots__` when creating millions of small data instances (e.g. coordinates, data points).",
+    "file": "notes/unlocked_insights/insight_015_slots_for_high_volume_object_optimization.md",
+    "unlockedAt": "2026-09-23 22:27",
+    "xpAwarded": 25
+  },
+  {
     "id": 14,
     "title": "Rate Limiting with Token Bucket",
     "category": "System Design",
