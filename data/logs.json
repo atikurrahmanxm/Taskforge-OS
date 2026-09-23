@@ -1,5 +1,17 @@
 [
   {
+    "id": "pulse-014",
+    "timestamp": "2026-09-23 19:16",
+    "session": "Pulse #3 Today",
+    "topic": "Unlocked: Custom Context Managers with `@contextmanager`",
+    "summary": "Safely manages resource acquisition and cleanup (files, locks, DB transactions) cleanly. (+25 XP gained)",
+    "tags": [
+      "python mastery",
+      "auto-pulse",
+      "lvl-2"
+    ]
+  },
+  {
     "id": "pulse-013",
     "timestamp": "2026-09-23 19:16",
     "session": "Pulse #2 Today",
