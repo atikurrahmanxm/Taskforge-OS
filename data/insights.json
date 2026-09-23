@@ -1,5 +1,15 @@
 [
   {
+    "id": 7,
+    "title": "Early Return (Guard Clause)",
+    "category": "Clean Code",
+    "summary": "Eliminates deeply nested if-else ladders by returning as soon as invalid states or edge cases are met.",
+    "takeaway": "Banish pyramid-of-doom indentation and keep the happy path at the top level of indentation.",
+    "file": "notes/unlocked_insights/insight_007_early_return_guard_clause.md",
+    "unlockedAt": "2026-09-23 19:15",
+    "xpAwarded": 25
+  },
+  {
     "id": 6,
     "title": "Circuit Breaker Pattern",
     "category": "Architecture",
