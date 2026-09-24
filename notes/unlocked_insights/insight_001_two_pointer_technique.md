@@ -1,7 +1,7 @@
 # 💡 Unlocked Concept #1: Two-Pointer Technique
 
 **Category:** `Algorithms`  
-**Unlocked At:** 2026-09-24 17:05  
+**Unlocked At:** 2026-09-24 22:12  
 **Reward:** `+25 XP`  
 
 ---
