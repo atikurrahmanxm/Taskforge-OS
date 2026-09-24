@@ -1,5 +1,17 @@
 [
   {
+    "id": "pulse-029",
+    "timestamp": "2026-09-25 00:28",
+    "session": "Pulse #4 Today",
+    "topic": "Unlocked: Two-Pointer Technique",
+    "summary": "Optimizes searching pairs in sorted arrays from O(n^2) to O(n) by using two pointers moving inward. (+25 XP gained)",
+    "tags": [
+      "algorithms",
+      "auto-pulse",
+      "lvl-4"
+    ]
+  },
+  {
     "id": "pulse-028",
     "timestamp": "2026-09-25 00:07",
     "session": "Pulse #3 Today",
