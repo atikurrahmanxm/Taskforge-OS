@@ -26,6 +26,16 @@
     "summary": "Optimizes searching pairs in sorted arrays from O(n^2) to O(n) by using two pointers moving inward.",
     "takeaway": "Always sort first or verify sorting before applying the two-pointer collision strategy.",
     "file": "notes/unlocked_insights/insight_001_two_pointer_technique.md",
+    "unlockedAt": "2026-09-29 14:24",
+    "xpAwarded": 25
+  },
+  {
+    "id": 1,
+    "title": "Two-Pointer Technique",
+    "category": "Algorithms",
+    "summary": "Optimizes searching pairs in sorted arrays from O(n^2) to O(n) by using two pointers moving inward.",
+    "takeaway": "Always sort first or verify sorting before applying the two-pointer collision strategy.",
+    "file": "notes/unlocked_insights/insight_001_two_pointer_technique.md",
     "unlockedAt": "2026-09-25 23:07",
     "xpAwarded": 25
   },
