@@ -82,8 +82,8 @@ graph TD
 
 ### 1. Clone or Download Repository
 ```bash
-git clone https://github.com/atikurrahmanxm/taskforge-os.git
-cd taskforge-os
+git clone https://github.com/atikurrahmanxm/Taskforge-OS.git
+cd Taskforge-OS
 ```
 
 ### 2. Launch Workstation
