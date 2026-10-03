@@ -82,8 +82,8 @@ graph TD
 
 ### 1. Clone or Download Repository
 ```bash
-git clone https://github.com/atikurrahmanxm/my-devlog.git
-cd my-devlog
+git clone https://github.com/atikurrahmanxm/taskforge-os.git
+cd taskforge-os
 ```
 
 ### 2. Launch Workstation
