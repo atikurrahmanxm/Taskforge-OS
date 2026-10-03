@@ -78,37 +78,33 @@ graph TD
 
 ---
 
-## 🚀 6-Milestone Git Evolution History
+## 💻 Getting Started
 
-This project was built and versioned across **6 semantic development milestones**:
+### 1. Clone or Download Repository
+```bash
+git clone https://github.com/atikurrahmanxm/my-devlog.git
+cd my-devlog
+```
 
-1. `feat(init): project architecture, app shell & design system` — Created design tokens, layout grid, CSS resets, and semantic view containers.
-2. `feat(core): data schema, persistent storage engine & state bus` — Implemented data models, seed dataset generator, and pub/sub event bus.
-3. `feat(kanban): interactive drag-and-drop board with full task CRUD` — Developed HTML5 drag-and-drop engine and task `<dialog>` modal.
-4. `feat(sprint): sprint management, backlog planner & multi-filter search` — Built sprint cycle overview, backlog partitioning, and multi-filter toolbar.
-5. `feat(tools): pomodoro focus timer & productivity analytics visualizer` — Integrated circular SVG Pomodoro timer, Web Audio chimes, and velocity charts.
-6. `release: v1.0.0 TaskForge OS - production-ready productivity workstation` — Added JSON/CSV backup & restore, global shortcuts, and documentation.
-
----
-
-## 💻 Quick Start
-
-1. **Clone or Download Repository**:
-   ```bash
-   git clone https://github.com/atikurrahmanxm/my-devlog.git
-   cd my-devlog
-   ```
-
-2. **Launch Workstation**:
-   - Double-click **`index.html`** in your file manager to open directly in Chrome, Firefox, Edge, or Safari.
-   - Alternatively, serve via any static HTTP server:
-     ```bash
-     npx serve .
-     ```
-
-3. **Pushing Updates**:
-   - Double-click **`push.bat`** or run `git push origin main`.
+### 2. Launch Workstation
+- Open **`index.html`** in any modern web browser (Chrome, Firefox, Safari, Edge).
+- Or run with any lightweight static HTTP server:
+  ```bash
+  npx serve .
+  ```
 
 ---
 
-🌿 *TaskForge OS — Built with craftsmanship for clean, focused development.*
+## 🛠️ Tech Stack & Architectural Principles
+
+- **Vanilla JavaScript (ES6+ Modules)**: Modern decoupled architecture with native ES Modules, Pub/Sub event bus, and zero third-party dependencies.
+- **Modern CSS3 Design System**: CSS Custom Properties for seamless dark/light theme switching, glassmorphic card overlays, and smooth CSS-based data visualizations.
+- **HTML5 Native APIs**: Full implementation of the native HTML5 Drag and Drop API and accessible `<dialog>` modals with backdrop blur.
+- **Web Audio API**: Real-time synthesized harmonic chimes for timer alerts without external asset requests.
+- **Local-First Reliability**: Instant offline capability, responsive client-side persistence, and manual JSON/CSV data portability.
+
+---
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
