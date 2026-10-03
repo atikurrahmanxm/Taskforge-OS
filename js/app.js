@@ -1,14 +1,16 @@
-// TaskForge OS - App Bootstrapper & View Router (Milestone 3)
+// TaskForge OS - App Bootstrapper & View Router (Milestone 4)
 import { APP_CONFIG, VIEWS } from './config.js';
 import { state, bus, EVENTS } from './state.js';
 import { taskModal } from './taskModal.js';
 import { KanbanBoardController } from './kanban.js';
+import { SprintPlannerController } from './sprint.js';
 
 class TaskForgeApp {
   constructor() {
     this.currentView = VIEWS.KANBAN;
     this.theme = localStorage.getItem('taskforge_theme') || APP_CONFIG.DEFAULT_THEME;
     this.kanbanBoard = null;
+    this.sprintPlanner = null;
     this.init();
   }
 
@@ -20,13 +22,28 @@ class TaskForgeApp {
     this.bindDialogFallbacks();
     this.bindGlobalShortcuts();
     this.bindQuickAdd();
+    this.bindSearchInput();
     this.bindStateListeners();
     this.updateCounters();
 
-    // Initialize Kanban Controller
+    // Initialize View Controllers
     this.kanbanBoard = new KanbanBoardController();
+    this.sprintPlanner = new SprintPlannerController();
 
     console.log(`[TaskForge OS] Bootstrapped v${APP_CONFIG.VERSION}`);
+  }
+
+  bindSearchInput() {
+    const input = document.getElementById('global-search-input');
+    if (!input) return;
+
+    let debounceTimer;
+    input.addEventListener('input', (e) => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        state.setSearchQuery(e.target.value);
+      }, 200);
+    });
   }
 
   bindQuickAdd() {

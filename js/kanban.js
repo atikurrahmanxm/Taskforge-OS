@@ -16,7 +16,64 @@ export class KanbanBoardController {
     bus.subscribe(EVENTS.FILTER_CHANGED, () => this.render());
     bus.subscribe(EVENTS.SEARCH_CHANGED, () => this.render());
 
+    this.renderFilters();
     this.render();
+  }
+
+  renderFilters() {
+    const filterContainer = document.getElementById('kanban-filters');
+    if (!filterContainer) return;
+
+    filterContainer.innerHTML = `
+      <div class="filter-bar">
+        <select id="filter-select-priority" class="filter-select">
+          <option value="all">All Priorities</option>
+          ${Object.values(PRIORITIES).map(p => `
+            <option value="${p.id}" ${state.filters.priority === p.id ? 'selected' : ''}>${p.icon} ${p.label}</option>
+          `).join('')}
+        </select>
+
+        <select id="filter-select-label" class="filter-select">
+          <option value="all">All Labels</option>
+          ${DEFAULT_LABELS.map(l => `
+            <option value="${l.id}" ${state.filters.label === l.id ? 'selected' : ''}>● ${l.name}</option>
+          `).join('')}
+        </select>
+
+        ${(state.filters.priority !== 'all' || state.filters.label !== 'all' || state.searchQuery) ? `
+          <button id="btn-clear-filters" class="btn btn-outline btn-sm" style="font-size: 0.75rem;">Clear Filters ✖</button>
+        ` : ''}
+      </div>
+    `;
+
+    // Bind change listeners
+    const prioritySelect = document.getElementById('filter-select-priority');
+    if (prioritySelect) {
+      prioritySelect.addEventListener('change', (e) => {
+        state.setFilter('priority', e.target.value);
+        this.renderFilters();
+      });
+    }
+
+    const labelSelect = document.getElementById('filter-select-label');
+    if (labelSelect) {
+      labelSelect.addEventListener('change', (e) => {
+        state.setFilter('label', e.target.value);
+        this.renderFilters();
+      });
+    }
+
+    const clearBtn = document.getElementById('btn-clear-filters');
+    if (clearBtn) {
+      clearBtn.addEventListener('click', () => {
+        state.setFilter('priority', 'all');
+        state.setFilter('label', 'all');
+        state.setSearchQuery('');
+        const searchInput = document.getElementById('global-search-input');
+        if (searchInput) searchInput.value = '';
+        this.renderFilters();
+      });
+    }
   }
 
   render() {
