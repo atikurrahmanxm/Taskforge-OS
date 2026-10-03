@@ -1,0 +1,12 @@
+{
+  "name": "taskforge-os",
+  "version": "1.0.0",
+  "description": "Developer Productivity Workstation & Kanban",
+  "scripts": {
+    "build": "esbuild js/app.js --bundle --outfile=js/bundle.js --minify",
+    "dev": "esbuild js/app.js --bundle --outfile=js/bundle.js --watch"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
+  }
+}
