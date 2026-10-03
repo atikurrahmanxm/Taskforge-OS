@@ -1,4 +1,4 @@
-// TaskForge OS - App Bootstrapper & View Router (Milestone 5)
+// TaskForge OS - App Bootstrapper & View Router (Milestone 6)
 import { APP_CONFIG, VIEWS } from './config.js';
 import { state, bus, EVENTS } from './state.js';
 import { taskModal } from './taskModal.js';
@@ -6,6 +6,7 @@ import { KanbanBoardController } from './kanban.js';
 import { SprintPlannerController } from './sprint.js';
 import { PomodoroController } from './pomodoro.js';
 import { AnalyticsController } from './analytics.js';
+import { DataExporterController } from './exporter.js';
 
 class TaskForgeApp {
   constructor() {
@@ -15,6 +16,7 @@ class TaskForgeApp {
     this.sprintPlanner = null;
     this.pomodoro = null;
     this.analytics = null;
+    this.exporter = null;
     this.init();
   }
 
@@ -35,6 +37,7 @@ class TaskForgeApp {
     this.sprintPlanner = new SprintPlannerController();
     this.pomodoro = new PomodoroController();
     this.analytics = new AnalyticsController();
+    this.exporter = new DataExporterController();
 
     console.log(`[TaskForge OS] Bootstrapped v${APP_CONFIG.VERSION}`);
   }

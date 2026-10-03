@@ -1,114 +1,114 @@
-# 🌿 DevLog Hub - Personal Learning & GitHub Contribution Booster
+# ⚡ TaskForge OS — Developer Productivity Workstation & Kanban
 
-> একটি পার্সোনাল প্রোডাক্টিভিটি, স্টাডি ট্র্যাকার এবং গিটহাব কন্ট্রিবিউশন গ্রাফ (সবুজ ঘর / Green Dots) নিয়মিত সক্রিয় রাখার সম্পূর্ণ প্রজেক্ট।
+[![Pure Vanilla](https://img.shields.io/badge/Stack-Vanilla_JS_ES6+-f7df1e?logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![CSS Custom Properties](https://img.shields.io/badge/CSS3-Modern_Tokens-1572b6?logo=css3&logoColor=white)](https://www.w3.org/TR/css-variables/)
+[![Local-First](https://img.shields.io/badge/Architecture-Local--First_&_Offline-10b981)](#architecture)
+[![License: MIT](https://img.shields.io/badge/License-MIT-6366f1.svg)](LICENSE)
 
----
-
-## 📌 কেন এই প্রজেক্ট? (Why this project?)
-GitHub-এ প্রতিদিন রেগুলার কন্ট্রিবিউশন রাখা যেকোনো ডেভেলপারের জন্য দারুণ একটি অভ্যাস। এই প্রজেক্টটির মাধ্যমে আপনি প্রতিদিন **৩ থেকে ৪ বার** অর্থপূর্ণ উপায়ে কমিট ও পুশ করতে পারবেন:
-1. **সকাল (Morning):** আজকের গোল ও টাস্ক সেট করা (`Session 1`)
-2. **দুপুর (Mid-Day):** কোনো নতুন কনসেপ্ট বা পড়ার নোটস অ্যাড করা (`Session 2`)
-3. **বিকেল (Afternoon):** কোড স্নিপেট বা প্রবলেম সলিউশন যুক্ত করা (`Session 3`)
-4. **রাত (Night):** টাস্ক ডান করা এবং সারা দিনের রিফ্লেকশন/রিভিউ লিখে স্ট্রিক আপডেট করা (`Session 4`)
+> A high-performance, local-first developer workstation featuring a **Drag-and-Drop Kanban Board**, **Sprint Planner & Backlog**, **Integrated Pomodoro Focus Timer**, and **Productivity Velocity Analytics**.
 
 ---
 
-## ⚠️ অতীব জরুরি: Private Repository-র সবুজ ঘর অন করার নিয়ম
-আপনার রিপোজিটরি **Private** থাকলেও GitHub প্রোফাইলে সবুজ ঘর দেখা যাবে, তবে এর জন্য গিটহাবে এই সেটিংসটি চালু করতে হবে:
+## 🌟 Key Workstation Capabilities
 
-1. আপনার গিটহাব প্রোফাইলে যান: `https://github.com/<your-username>`
-2. কন্ট্রিবিউশন গ্রাফের ঠিক ওপরে ডানপাশে **Contribution settings** ড্রপডাউনে ক্লিক করুন।
-3. **"Include private contributions on my profile"** অপশনটিতে টিক দিন (Check করুন)।
-4. ব্যস! এখন থেকে আপনার এই প্রাইভেট প্রজেক্টের প্রতিটি পুশ আপনার প্রোফাইলে গ্রিন ডট যোগ করবে!
+### 1. 📋 Drag-and-Drop Kanban Board
+- Native HTML5 Drag and Drop API with smooth reordering and drop indicator zones.
+- Customizable lifecycle columns (`Backlog`, `In Progress`, `Code Review`, `Completed`) with configurable WIP (Work In Progress) limit thresholds.
+- Rich task cards featuring priority indicators (`🔥 Urgent`, `⚡ High`, `🟡 Medium`, `🟢 Low`), label chips, subtasks checklist progress bars, and overdue warnings.
+- Native `<dialog closedby="any">` task modal with subtasks checklist and multi-label tagging.
+
+### 2. 🏃 Sprint Planner & Product Backlog
+- Manage multi-week software delivery sprints with dedicated start/end dates and sprint goals.
+- Real-time sprint completion velocity tracking (`X / Y tasks closed`).
+- Drag-free backlog partition: seamlessly shift tasks between the unassigned product backlog and the active sprint.
+
+### 3. ⏱️ Integrated Pomodoro Focus Timer
+- Integrated productivity timer supporting **Deep Focus (25m)**, **Short Break (5m)**, and **Long Break (15m)** modes.
+- Circular SVG progress ring visualization with responsive countdown digits.
+- **Synthesized Web Audio API Chimes**: Generates gentle dual-tone harmonic audio chimes on completion without relying on external mp3 assets.
+- Session linking: associate focused intervals directly with specific sprint tasks.
+
+### 4. 📊 Engineering Velocity & Analytics
+- Live visual analytics dashboard calculating:
+  - **Completion Rate (%)** and closed task throughput.
+  - **Work In Progress (WIP)** load across pipeline columns.
+  - **Committed Scope (Hours)** vs Burnt Hours.
+  - **Priority Breakdown**: Percentage distribution bars across urgency classes.
+- Zero external charting bloat: rendered entirely via lightweight CSS custom property bars and SVG.
+
+### 5. 💾 Local-First Data Engine & Portability
+- 100% offline-capable: runs instantly in any browser without requiring node servers, cloud subscriptions, or databases.
+- Single-click **JSON Backup & Restore** for seamless cross-machine synchronization.
+- **CSV Spreadsheet Export** for reporting in Excel, Google Sheets, or Notion.
 
 ---
 
-## 🚀 প্রথমবার গিটহাবে আপলোড করার নিয়ম (One-time Setup)
+## 🏛️ System Architecture
 
-### ধাপ ১: GitHub-এ একটি নতুন Private Repo তৈরি করুন
-1. যান: [https://github.com/new](https://github.com/new)
-2. রিপোজিটরির নাম দিন (যেমন: `my-devlog` অথবা `dev-pulse`).
-3. অবশ্যই **Private** সিলেক্ট করুন।
-4. "Add a README file" বা অন্যান্য অপশন আনচেক রাখবেন (খালি রিপোজিটরি)।
-5. **Create repository** বাটনে ক্লিক করুন।
-
-### ধাপ ২: এই ফোল্ডারের সাথে গিটহাব কানেক্ট করুন
-আপনার কম্পিউটারে টার্মিনাল / PowerShell ওপেন করে নিচের কমান্ডগুলো চালান:
-
-```bash
-# ১. গিট ইনিশিয়ালাইজ করুন (অলরেডি করা না থাকলে)
-git init
-
-# ২. মেইন ব্রাঞ্চ সেট করুন
-git branch -M main
-
-# ৩. আপনার গিটহাব রিপোজিটরির লিঙ্ক যুক্ত করুন (নিচের লিঙ্কে আপনার ইউজারনেম দিন)
-git remote add origin https://github.com/<YOUR-GITHUB-USERNAME>/<REPO-NAME>.git
-
-# ৪. সব ফাইল স্টেজ ও ইনিশিয়াল কমিট করুন
-git add .
-git commit -m "feat: initialize DevLog Hub for daily contributions"
-
-# ৫. গিটহাবে পুশ করুন
-git push -u origin main
+```mermaid
+graph TD
+    AppShell["index.html (Semantic App Shell)"] --> Router["js/app.js (Bootstrapper & Router)"]
+    Router --> State["js/state.js (Reactive Store & Event Bus)"]
+    State <--> Storage["js/storage.js (LocalStorage Persistence Layer)"]
+    
+    Router --> Kanban["js/kanban.js (Drag & Drop Kanban Controller)"]
+    Router --> Sprint["js/sprint.js (Sprint Planner & Backlog)"]
+    Router --> Pomodoro["js/pomodoro.js (Pomodoro Timer & Web Audio)"]
+    Router --> Analytics["js/analytics.js (Velocity & Analytics Visualizer)"]
+    Router --> Exporter["js/exporter.js (JSON/CSV Portability Engine)"]
+    
+    Kanban --> Modal["js/taskModal.js (Task Create/Edit Dialog)"]
+    Sprint --> Modal
 ```
 
 ---
 
-## ⚡ প্রতিদিন ৩-৪ বার পুশ করার সহজ উপায় (Daily Workflow)
+## ⌨️ Global Keyboard Shortcuts
 
-আপনার প্রতিদিন ঘণ্টার পর ঘণ্টা সময় নষ্ট করতে হবে না। নিচের ২টি সহজ পদ্ধতির যেকোনো একটি ব্যবহার করুন:
-
-### পদ্ধতি ১: ১-ক্লিক অটো পুশ (`quick-push.bat`)
-- ফোল্ডারের ভেতর থাকা **`quick-push.bat`** ফাইলে ডাবল-ক্লিক করুন।
-- এটি স্বয়ংক্রিয়ভাবে গিটহাবে ফাইলগুলো কমিট ও পুশ করে দেবে!
-
-### পদ্ধতি ২: পাইথন ইন্টারেক্টিভ অ্যাসিস্ট্যান্ট (`log.py`)
-টার্মিনালে রান করুন:
-```bash
-python log.py
-```
-একটি সুন্দর মেনু আসবে:
-- `1` চাপলে আজকের পড়ার নোটস লিখবেন এবং সাথে সাথে গিটহাবে পুশ হয়ে যাবে।
-- `2` চাপলে আজকের টাস্ক কমপ্লিট করতে পারবেন।
-- `3` চাপলে নতুন কোড স্নিপেট সেভ করতে পারবেন।
-- `4` চাপলে ১-সেকেন্ডে ইন্সট্যান্ট পুশ করতে পারবেন।
-
-বা সরাসরি কমান্ড লাইন থেকে:
-```bash
-python log.py --push "Session 2: completed array problem"
-```
+| Shortcut | Action |
+| :--- | :--- |
+| <kbd>N</kbd> | Open New Task modal |
+| <kbd>Ctrl</kbd> + <kbd>K</kbd> | Focus global task & tag search |
+| <kbd>1</kbd> | Switch to Kanban Board view |
+| <kbd>2</kbd> | Switch to Sprint Planner view |
+| <kbd>3</kbd> | Switch to Pomodoro Timer view |
+| <kbd>4</kbd> | Switch to Analytics view |
+| <kbd>?</kbd> | Show Keyboard Shortcuts cheat sheet |
+| <kbd>Esc</kbd> | Dismiss active dialog / blur search |
 
 ---
 
-## 🌐 ইন্টারঅ্যাক্টিভ ড্যাশবোর্ড (`index.html`)
-আপনার প্রগ্রেস, টাস্ক লিস্ট এবং স্ট্রিক দেখতে ফোল্ডারের ভেতর থাকা **`index.html`** ফাইলে ডাবল ক্লিক করে যেকোনো ব্রাউজারে ওপেন করুন। 
-- ডার্ক মোড সাপোর্ট
-- লাইভ টাস্ক চেকলিস্ট
-- কন্ট্রিবিউশন গ্রিড প্রিভিউ
-- ১-ক্লিকে কমান্ড কপি করার সুবিধা
+## 🚀 6-Milestone Git Evolution History
+
+This project was built and versioned across **6 semantic development milestones**:
+
+1. `feat(init): project architecture, app shell & design system` — Created design tokens, layout grid, CSS resets, and semantic view containers.
+2. `feat(core): data schema, persistent storage engine & state bus` — Implemented data models, seed dataset generator, and pub/sub event bus.
+3. `feat(kanban): interactive drag-and-drop board with full task CRUD` — Developed HTML5 drag-and-drop engine and task `<dialog>` modal.
+4. `feat(sprint): sprint management, backlog planner & multi-filter search` — Built sprint cycle overview, backlog partitioning, and multi-filter toolbar.
+5. `feat(tools): pomodoro focus timer & productivity analytics visualizer` — Integrated circular SVG Pomodoro timer, Web Audio chimes, and velocity charts.
+6. `release: v1.0.0 TaskForge OS - production-ready productivity workstation` — Added JSON/CSV backup & restore, global shortcuts, and documentation.
 
 ---
 
-## 📁 ফাইল ও ফোল্ডার পরিচিতি
-```
-For_Github/
-├── index.html           # লোকাল ড্যাশবোর্ড UI (ব্রাউজারে ওপেন করুন)
-├── style.css            # ড্যাশবোর্ডের ডিজাইন ও স্টাইল
-├── app.js               # ড্যাশবোর্ডের লজিক
-├── log.py               # অটোমেশন ও ডেইলি লগার টুল
-├── quick-push.bat       # ডাবল-ক্লিক করে পুশ করার স্ক্রিপ্ট
-├── data/
-│   ├── profile.json     # স্ট্রিক ও স্ট্যাটিস্টিকস
-│   ├── tasks.json       # প্রতিদিনের ৪টি সেশনের টাস্ক লিস্ট
-│   └── logs.json        # আগের সমস্ত লার্নিং হিস্ট্রি
-├── notes/
-│   ├── daily_template.md  # প্রতিদিনের নোট নেওয়ার ফরম্যাট
-│   └── sample_learning.md # স্যাম্পল লার্নিং নোট
-├── snippets/
-│   └── useful_snippets.md # আপনার প্রিয় কোড স্নিপেট ভল্ট
-├── .gitignore           # অপ্রয়োজনীয় ফাইল ইগনোর করার কনফিগ
-└── README.md            # এই ডকুমেন্টেশন
-```
+## 💻 Quick Start
 
-🌿 **Happy Coding & Keep Your GitHub Contributions Green!**
+1. **Clone or Download Repository**:
+   ```bash
+   git clone https://github.com/atikurrahmanxm/my-devlog.git
+   cd my-devlog
+   ```
+
+2. **Launch Workstation**:
+   - Double-click **`index.html`** in your file manager to open directly in Chrome, Firefox, Edge, or Safari.
+   - Alternatively, serve via any static HTTP server:
+     ```bash
+     npx serve .
+     ```
+
+3. **Pushing Updates**:
+   - Double-click **`push.bat`** or run `git push origin main`.
+
+---
+
+🌿 *TaskForge OS — Built with craftsmanship for clean, focused development.*
