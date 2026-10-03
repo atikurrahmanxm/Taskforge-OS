@@ -1,5 +1,6 @@
-// TaskForge OS - App Bootstrapper & View Router (Milestone 1)
+// TaskForge OS - App Bootstrapper & View Router (Milestone 2)
 import { APP_CONFIG, VIEWS } from './config.js';
+import { state, bus, EVENTS } from './state.js';
 
 class TaskForgeApp {
   constructor() {
@@ -15,8 +16,22 @@ class TaskForgeApp {
     this.bindShortcutsModal();
     this.bindDialogFallbacks();
     this.bindGlobalShortcuts();
+    this.bindStateListeners();
+    this.updateCounters();
 
     console.log(`[TaskForge OS] Bootstrapped v${APP_CONFIG.VERSION}`);
+  }
+
+  bindStateListeners() {
+    bus.subscribe(EVENTS.TASKS_CHANGED, () => this.updateCounters());
+    bus.subscribe(EVENTS.STATE_INITIALIZED, () => this.updateCounters());
+  }
+
+  updateCounters() {
+    const kanbanCount = document.getElementById('nav-count-kanban');
+    if (kanbanCount) {
+      kanbanCount.textContent = state.tasks.length;
+    }
   }
 
   // Theme Management
