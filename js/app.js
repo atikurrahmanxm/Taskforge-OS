@@ -1,11 +1,14 @@
-// TaskForge OS - App Bootstrapper & View Router (Milestone 2)
+// TaskForge OS - App Bootstrapper & View Router (Milestone 3)
 import { APP_CONFIG, VIEWS } from './config.js';
 import { state, bus, EVENTS } from './state.js';
+import { taskModal } from './taskModal.js';
+import { KanbanBoardController } from './kanban.js';
 
 class TaskForgeApp {
   constructor() {
     this.currentView = VIEWS.KANBAN;
     this.theme = localStorage.getItem('taskforge_theme') || APP_CONFIG.DEFAULT_THEME;
+    this.kanbanBoard = null;
     this.init();
   }
 
@@ -16,10 +19,23 @@ class TaskForgeApp {
     this.bindShortcutsModal();
     this.bindDialogFallbacks();
     this.bindGlobalShortcuts();
+    this.bindQuickAdd();
     this.bindStateListeners();
     this.updateCounters();
 
+    // Initialize Kanban Controller
+    this.kanbanBoard = new KanbanBoardController();
+
     console.log(`[TaskForge OS] Bootstrapped v${APP_CONFIG.VERSION}`);
+  }
+
+  bindQuickAdd() {
+    const quickAddBtn = document.getElementById('btn-quick-add-task');
+    if (quickAddBtn) {
+      quickAddBtn.addEventListener('click', () => {
+        taskModal.openNew();
+      });
+    }
   }
 
   bindStateListeners() {
@@ -146,6 +162,9 @@ class TaskForgeApp {
         e.preventDefault();
         const modal = document.getElementById('shortcuts-modal');
         if (modal) modal.showModal();
+      } else if (e.key.toLowerCase() === 'n') {
+        e.preventDefault();
+        taskModal.openNew();
       } else if (e.key === '1') {
         this.switchView(VIEWS.KANBAN);
       } else if (e.key === '2') {
