@@ -1,0 +1,28 @@
+/* Kanban Board Styles */
+.view-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.view-heading {
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.view-subheading {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.kanban-board-container {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding-bottom: 24px;
+  min-height: calc(100vh - 180px);
+}

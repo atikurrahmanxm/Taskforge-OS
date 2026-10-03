@@ -1,0 +1,8 @@
+/* Pomodoro Timer View Base Styles */
+.pomodoro-layout-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+}

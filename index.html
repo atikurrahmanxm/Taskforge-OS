@@ -1,231 +1,201 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DevLog Hub | Auto-Evolving Contribution Dashboard</title>
-  <link rel="stylesheet" href="style.css">
+  <title>TaskForge OS — Developer Workstation & Kanban</title>
+  
+  <!-- Design System CSS -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/kanban.css">
+  <link rel="stylesheet" href="css/sprint.css">
+  <link rel="stylesheet" href="css/pomodoro.css">
+  <link rel="stylesheet" href="css/analytics.css">
+
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="app-container">
-    <!-- Top Navigation -->
-    <header class="navbar">
-      <div class="brand">
-        <span class="brand-icon">⚡</span>
-        <div>
-          <h1 class="brand-title">DevLog Hub</h1>
-          <p class="brand-subtitle">Auto-Evolving Developer Productivity & GitHub Streak System</p>
+  <div id="app-shell">
+    <!-- Collapsible App Sidebar -->
+    <aside class="app-sidebar" id="app-sidebar">
+      <div class="sidebar-header">
+        <div class="brand-logo">
+          <div class="brand-icon-box">⚡</div>
+          <span>TaskForge<span style="color: var(--color-primary)">.OS</span></span>
         </div>
       </div>
-      <div class="header-actions">
-        <div class="streak-badge">
-          <span class="flame">🔥</span>
-          <span id="streak-count">1</span> Day Streak
-        </div>
-        <div class="daily-target-badge">
-          🎯 <span id="today-pushes">1</span>/4 Pushes Today
-        </div>
-        <button id="refresh-btn" class="btn btn-secondary" title="Sync data">🔄 Sync</button>
-      </div>
-    </header>
 
-    <!-- Gamified Level & XP Banner -->
-    <section class="xp-banner-card">
-      <div class="xp-banner-header">
-        <div class="rank-info">
-          <span class="rank-badge" id="rank-badge">🎖️ Level 1</span>
-          <div>
-            <h2 class="rank-title" id="rank-title">Terminal Novice</h2>
-            <p class="rank-subtitle">+25 XP awarded on every push to your GitHub repo!</p>
+      <nav class="sidebar-nav">
+        <div class="nav-label">Workspace</div>
+        <button class="nav-item active" data-view="kanban">
+          <span class="nav-icon">📋</span>
+          <span>Kanban Board</span>
+          <span class="nav-badge" id="nav-count-kanban">0</span>
+        </button>
+
+        <button class="nav-item" data-view="sprint">
+          <span class="nav-icon">🏃</span>
+          <span>Sprint Planner</span>
+          <span class="nav-badge" id="nav-count-sprint">Active</span>
+        </button>
+
+        <div class="nav-label">Productivity</div>
+        <button class="nav-item" data-view="pomodoro">
+          <span class="nav-icon">⏱️</span>
+          <span>Pomodoro Timer</span>
+        </button>
+
+        <button class="nav-item" data-view="analytics">
+          <span class="nav-icon">📊</span>
+          <span>Analytics & Velocity</span>
+        </button>
+
+        <div class="nav-label">System</div>
+        <button class="nav-item" data-view="settings">
+          <span class="nav-icon">⚙️</span>
+          <span>Settings & Backup</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="workspace-badge">
+          <span class="status-dot"></span>
+          <span>Local Engine Active</span>
+        </div>
+        <button id="shortcuts-btn" class="btn-icon" title="Keyboard Shortcuts (?)">⌨️</button>
+      </div>
+    </aside>
+
+    <!-- Main Content Workstation Area -->
+    <main class="app-main">
+      <!-- Sticky Topbar Header -->
+      <header class="app-topbar">
+        <div class="topbar-left">
+          <div class="breadcrumbs">
+            <span>Workspace</span>
+            <span>/</span>
+            <span class="current" id="current-view-title">Kanban Board</span>
+          </div>
+
+          <div class="search-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="global-search-input" class="search-input" placeholder="Search tasks, tags, or IDs...">
+            <span class="search-shortcut-kbd">Ctrl+K</span>
           </div>
         </div>
-        <div class="xp-counter">
-          <span id="current-xp" class="xp-bold">25</span> <span class="xp-total">/ <span id="next-xp">100</span> XP</span>
-        </div>
-      </div>
-      <div class="xp-progress-track">
-        <div class="xp-progress-fill" id="xp-progress-fill" style="width: 25%;"></div>
-      </div>
-      <div class="xp-banner-footer">
-        <span id="xp-percentage-text">25% towards Level 2</span>
-        <span class="auto-evolve-tag">⚡ Auto-Evolution Engine: Active</span>
-      </div>
-    </section>
 
-    <!-- Trophies & Badges Rack -->
-    <section class="card trophies-card">
-      <div class="card-header">
-        <div>
-          <h2 class="card-title">🏆 Unlocked Achievements & Badges</h2>
-          <p class="card-desc">Earn badges as you commit regularly and level up your developer profile:</p>
-        </div>
-      </div>
-      <div class="badges-rack" id="badges-rack">
-        <!-- Injected dynamically by app.js -->
-      </div>
-    </section>
+        <div class="topbar-right">
+          <button id="btn-quick-add-task" class="btn btn-primary">
+            <span>+</span> New Task
+          </button>
 
-    <!-- Main Grid Layout -->
-    <main class="dashboard-grid">
-      <!-- Left Column: Unlocked Insights & Tasks -->
-      <section class="col-main">
-        <!-- Unlocked Insights Vault -->
-        <div class="card insights-card">
-          <div class="card-header">
+          <button id="theme-toggle-btn" class="btn-icon" title="Toggle Theme">
+            <span id="theme-icon">🌙</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- View Containers Viewport -->
+      <div class="views-viewport">
+        <!-- 1. Kanban Board View -->
+        <section id="view-kanban" class="view-section active">
+          <div class="view-toolbar" id="kanban-toolbar">
+            <div class="toolbar-left">
+              <h1 class="view-heading">Engineering Sprint Board</h1>
+              <p class="view-subheading">Drag and drop cards across lifecycle columns to manage development.</p>
+            </div>
+            <div class="toolbar-right" id="kanban-filters">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+          <div class="kanban-board-container" id="kanban-board">
+            <!-- Kanban Columns & Cards Rendered Dynamically -->
+          </div>
+        </section>
+
+        <!-- 2. Sprint Planner View -->
+        <section id="view-sprint" class="view-section">
+          <div class="view-toolbar">
             <div>
-              <h2 class="card-title">💡 Unlocked Knowledge & Code Insights</h2>
-              <p class="card-desc">Real concepts & code automatically generated on every push:</p>
-            </div>
-            <span class="tag tag-success" id="unlocked-count-badge">1 Unlocked</span>
-          </div>
-          <div class="insights-container" id="insights-container">
-            <!-- Dynamically populated from insights.json -->
-          </div>
-        </div>
-
-        <!-- 4 Daily Sessions Card -->
-        <div class="card session-planner-card">
-          <div class="card-header">
-            <div>
-              <h2 class="card-title">📅 4-Push Daily Blueprint</h2>
-              <p class="card-desc">Recommended routine for pushing 3–4 times daily:</p>
-            </div>
-            <span class="tag tag-blue">Workflow</span>
-          </div>
-
-          <div class="sessions-grid">
-            <div class="session-box">
-              <div class="session-top">
-                <span class="session-badge">01. Morning</span>
-                <span class="session-time">09:00</span>
-              </div>
-              <h3>Morning Pulse</h3>
-              <p>Triggers evolution, updates streak, unlocks concept #1.</p>
-              <button class="btn btn-sm btn-outline copy-cmd-btn" data-cmd=".\quick-push.bat">Run Push</button>
-            </div>
-
-            <div class="session-box">
-              <div class="session-top">
-                <span class="session-badge">02. Mid-Day</span>
-                <span class="session-time">13:00</span>
-              </div>
-              <h3>Mid-Day Pulse</h3>
-              <p>Adds +25 XP, levels up progress, unlocks concept #2.</p>
-              <button class="btn btn-sm btn-outline copy-cmd-btn" data-cmd=".\quick-push.bat">Run Push</button>
-            </div>
-
-            <div class="session-box">
-              <div class="session-top">
-                <span class="session-badge">03. Afternoon</span>
-                <span class="session-time">17:00</span>
-              </div>
-              <h3>Afternoon Pulse</h3>
-              <p>Unlocks algorithmic pattern & boosts contribution chart.</p>
-              <button class="btn btn-sm btn-outline copy-cmd-btn" data-cmd=".\quick-push.bat">Run Push</button>
-            </div>
-
-            <div class="session-box">
-              <div class="session-top">
-                <span class="session-badge">04. Night</span>
-                <span class="session-time">21:00</span>
-              </div>
-              <h3>Wrap-up Pulse</h3>
-              <p>Final streak sync, checks daily trophy, unlocks concept #4.</p>
-              <button class="btn btn-sm btn-outline copy-cmd-btn" data-cmd=".\quick-push.bat">Run Push</button>
+              <h1 class="view-heading">Sprint Planner & Backlog</h1>
+              <p class="view-subheading">Organize upcoming work cycles, manage velocity and allocate sprint goals.</p>
             </div>
           </div>
-        </div>
+          <div class="sprint-layout-container" id="sprint-container">
+            <!-- Sprint Views Rendered Dynamically -->
+          </div>
+        </section>
 
-        <!-- Task Checklist -->
-        <div class="card tasks-card">
-          <div class="card-header">
-            <div>
-              <h2 class="card-title">✅ Daily Developer Habits</h2>
-              <p class="card-desc">Track tasks for today.</p>
-            </div>
-            <span id="task-stats-text" class="task-stats-text">1 / 4 Done</span>
+        <!-- 3. Pomodoro Focus Timer View -->
+        <section id="view-pomodoro" class="view-section">
+          <div class="pomodoro-layout-container" id="pomodoro-container">
+            <!-- Pomodoro Timer Rendered Dynamically -->
           </div>
+        </section>
 
-          <div class="task-add-bar">
-            <input type="text" id="new-task-input" placeholder="Add custom goal...">
-            <select id="new-task-session">
-              <option value="Session 1">Session 1</option>
-              <option value="Session 2" selected>Session 2</option>
-              <option value="Session 3">Session 3</option>
-              <option value="Session 4">Session 4</option>
-            </select>
-            <button id="add-task-btn" class="btn btn-primary">+ Add</button>
+        <!-- 4. Analytics View -->
+        <section id="view-analytics" class="view-section">
+          <div class="analytics-layout-container" id="analytics-container">
+            <!-- Analytics Charts Rendered Dynamically -->
           </div>
+        </section>
 
-          <ul id="task-list" class="task-list"></ul>
-        </div>
-      </section>
-
-      <!-- Right Column: Graphs, Controls & Activity -->
-      <section class="col-side">
-        <!-- Contribution Graph Simulation -->
-        <div class="card mini-graph-card">
-          <div class="card-header">
-            <h2 class="card-title">🌿 Contribution Activity</h2>
-            <span class="active-indicator">● Active</span>
+        <!-- 5. Settings & Data View -->
+        <section id="view-settings" class="view-section">
+          <div class="settings-layout-container" id="settings-container">
+            <!-- Settings & Backup Rendered Dynamically -->
           </div>
-          <p class="card-desc">Simulated preview of your GitHub green squares:</p>
-          <div class="contrib-grid" id="contrib-grid"></div>
-          <div class="graph-legend">
-            <span>Less</span>
-            <div class="legend-cell level-0"></div>
-            <div class="legend-cell level-1"></div>
-            <div class="legend-cell level-2"></div>
-            <div class="legend-cell level-3"></div>
-            <div class="legend-cell level-4"></div>
-            <span>More</span>
-          </div>
-          <div class="private-reminder">
-            ⚠️ <strong>GitHub Tip:</strong> In Profile &gt; <em>Contribution Settings</em>, enable <u>"Include private contributions on my profile"</u>!
-          </div>
-        </div>
-
-        <!-- Quick 1-Click Push Helper -->
-        <div class="card quick-actions-card">
-          <div class="card-header">
-            <h2 class="card-title">⚡ Quick Push Shortcut</h2>
-          </div>
-          <p class="card-desc" style="margin-bottom: 14px;">Double click <strong>quick-push.bat</strong> in your folder or run in terminal:</p>
-          <div class="action-items">
-            <div class="action-item">
-              <div class="action-info">
-                <strong>1-Click Evolution & Push</strong>
-                <span>Unlocks knowledge, +25 XP & pushes in 3s</span>
-              </div>
-              <button class="btn btn-sm btn-primary copy-cmd-btn" data-cmd=".\quick-push.bat">Copy</button>
-            </div>
-            <div class="action-item">
-              <div class="action-info">
-                <strong>Python Engine CLI</strong>
-                <span>Interactive menu for tasks & snippets</span>
-              </div>
-              <button class="btn btn-sm btn-outline copy-cmd-btn" data-cmd="python log.py">Copy</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Activity History -->
-        <div class="card logs-card">
-          <div class="card-header">
-            <h2 class="card-title">📜 Pulse History</h2>
-          </div>
-          <div id="logs-list" class="logs-list"></div>
-        </div>
-      </section>
+        </section>
+      </div>
     </main>
 
-    <!-- Toast Notification -->
-    <div id="toast" class="toast">Action copied!</div>
+    <!-- Task Create / Edit Dialog (Native HTML5 <dialog>) -->
+    <dialog id="task-modal" class="modal-dialog" closedby="any" aria-labelledby="taskModalTitle">
+      <div class="modal-header">
+        <h2 id="taskModalTitle" class="modal-title">Create Task</h2>
+        <button type="button" class="btn-icon" id="btn-close-task-modal">✖</button>
+      </div>
+      <form id="task-form" method="dialog">
+        <div class="modal-body" id="task-modal-body">
+          <!-- Dynamic Task Form Fields -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="btn-cancel-task">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btn-save-task">Save Task</button>
+        </div>
+      </form>
+    </dialog>
+
+    <!-- Keyboard Shortcuts Modal -->
+    <dialog id="shortcuts-modal" class="modal-dialog" closedby="any" aria-labelledby="shortcutsModalTitle">
+      <div class="modal-header">
+        <h2 id="shortcutsModalTitle" class="modal-title">Keyboard Shortcuts</h2>
+        <button type="button" class="btn-icon" id="btn-close-shortcuts-modal">✖</button>
+      </div>
+      <div class="modal-body">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 0.88rem;">
+          <div><kbd style="padding: 2px 6px; background: var(--bg-surface-elevated); border-radius: 4px;">N</kbd> New Task</div>
+          <div><kbd style="padding: 2px 6px; background: var(--bg-surface-elevated); border-radius: 4px;">Ctrl+K</kbd> Global Search</div>
+          <div><kbd style="padding: 2px 6px; background: var(--bg-surface-elevated); border-radius: 4px;">1</kbd> Kanban View</div>
+          <div><kbd style="padding: 2px 6px; background: var(--bg-surface-elevated); border-radius: 4px;">2</kbd> Sprint Planner</div>
+          <div><kbd style="padding: 2px 6px; background: var(--bg-surface-elevated); border-radius: 4px;">3</kbd> Pomodoro Timer</div>
+          <div><kbd style="padding: 2px 6px; background: var(--bg-surface-elevated); border-radius: 4px;">4</kbd> Analytics</div>
+          <div><kbd style="padding: 2px 6px; background: var(--bg-surface-elevated); border-radius: 4px;">?</kbd> Shortcuts Help</div>
+          <div><kbd style="padding: 2px 6px; background: var(--bg-surface-elevated); border-radius: 4px;">Esc</kbd> Close Dialogs</div>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- Global Toast Container -->
+    <div id="toast-container" class="toast-container"></div>
   </div>
 
-  <script src="app.js"></script>
+  <!-- Bootstrapper Script -->
+  <script type="module" src="js/app.js"></script>
 </body>
 </html>
