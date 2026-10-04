@@ -95,7 +95,7 @@ export class HomeController {
           <div class="home-kpi-card" data-jump="sprint">
             <div class="kpi-top">
               <span>Sprint Velocity</span>
-              <div class="kpi-icon-badge" style="background: rgba(99, 102, 241, 0.15); color: #818cf8;">🎯</div>
+              <div class="kpi-icon-badge" style="background: var(--color-primary-light); color: var(--color-primary);">🎯</div>
             </div>
             <div class="kpi-val">${sprintPct}%</div>
             <div class="kpi-subtext">${sprintDone} of ${sprintTasks.length} tasks completed</div>
@@ -107,7 +107,7 @@ export class HomeController {
           <div class="home-kpi-card" data-jump="kanban">
             <div class="kpi-top">
               <span>Urgent Attention</span>
-              <div class="kpi-icon-badge" style="background: rgba(239, 68, 68, 0.15); color: #ef4444;">🔥</div>
+              <div class="kpi-icon-badge" style="background: var(--priority-urgent-bg); color: var(--priority-urgent);">🔥</div>
             </div>
             <div class="kpi-val">${urgentTasks.length}</div>
             <div class="kpi-subtext">Critical & high priority items</div>
@@ -116,7 +116,7 @@ export class HomeController {
           <div class="home-kpi-card" data-jump="kanban">
             <div class="kpi-top">
               <span>Active WIP Load</span>
-              <div class="kpi-icon-badge" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8;">⚡</div>
+              <div class="kpi-icon-badge" style="background: rgba(14, 165, 233, 0.15); color: var(--color-accent);">⚡</div>
             </div>
             <div class="kpi-val">${wipTasks.length}</div>
             <div class="kpi-subtext">Tasks in progress or review</div>
@@ -125,7 +125,7 @@ export class HomeController {
           <div class="home-kpi-card" data-jump="pomodoro">
             <div class="kpi-top">
               <span>Focus Logged</span>
-              <div class="kpi-icon-badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">⏱️</div>
+              <div class="kpi-icon-badge" style="background: var(--priority-low-bg); color: var(--priority-low);">⏱️</div>
             </div>
             <div class="kpi-val">${pomoHours}h</div>
             <div class="kpi-subtext">${pomoHistory.length} sessions completed</div>
@@ -214,10 +214,10 @@ export class HomeController {
             <!-- Active Sprint Radar -->
             <div class="home-side-card">
               <div class="section-card-header">
-                <h3 style="font-size: 1rem; font-weight: 700;">🎯 Sprint Radar</h3>
+                <h3 style="font-size: var(--text-md); font-weight: 700;">🎯 Sprint Radar</h3>
                 <span class="badge badge-priority-low">Active</span>
               </div>
-              <p style="font-size: 0.82rem; color: var(--text-muted);">
+              <p style="font-size: var(--text-sm); color: var(--text-muted);">
                 ${escapeHtml(activeSprint.goal)}
               </p>
 
@@ -240,8 +240,8 @@ export class HomeController {
             <!-- Recent Activity Stream -->
             <div class="home-side-card">
               <div class="section-card-header">
-                <h3 style="font-size: 1rem; font-weight: 700;">📜 Recent Activity</h3>
-                <span style="font-size: 0.72rem; color: var(--text-dim);">Live Log</span>
+                <h3 style="font-size: var(--text-md); font-weight: 700;">📜 Recent Activity</h3>
+                <span style="font-size: var(--text-xs); color: var(--text-dim);">Live Log</span>
               </div>
               <div class="activity-feed-list">
                 <div class="feed-item">
@@ -271,21 +271,21 @@ export class HomeController {
             <!-- Pro Shortcuts Card -->
             <div class="home-side-card" style="background: linear-gradient(135deg, var(--bg-surface), var(--bg-surface-elevated));">
               <div class="section-card-header">
-                <h3 style="font-size: 0.95rem; font-weight: 700;">⚡ Pro Shortcuts</h3>
+                <h3 style="font-size: var(--text-md); font-weight: 700;">⚡ Pro Shortcuts</h3>
                 <span>⌨️</span>
               </div>
-              <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.8rem; color: var(--text-muted);">
-                <div style="display: flex; justify-content: space-between;">
-                  <span>New Task</span> <kbd style="padding: 1px 6px; background: var(--bg-input); border-radius: 3px;">N</kbd>
+              <div style="display: flex; flex-direction: column; gap: 8px; font-size: var(--text-sm); color: var(--text-muted);">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span>New Task</span> <kbd>N</kbd>
                 </div>
-                <div style="display: flex; justify-content: space-between;">
-                  <span>Global Search</span> <kbd style="padding: 1px 6px; background: var(--bg-input); border-radius: 3px;">Ctrl+K</kbd>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span>Global Search</span> <kbd>Ctrl+K</kbd>
                 </div>
-                <div style="display: flex; justify-content: space-between;">
-                  <span>Kanban Board</span> <kbd style="padding: 1px 6px; background: var(--bg-input); border-radius: 3px;">1</kbd>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span>Kanban Board</span> <kbd>1</kbd>
                 </div>
-                <div style="display: flex; justify-content: space-between;">
-                  <span>Pomodoro Timer</span> <kbd style="padding: 1px 6px; background: var(--bg-input); border-radius: 3px;">3</kbd>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span>Pomodoro Timer</span> <kbd>3</kbd>
                 </div>
               </div>
             </div>
@@ -308,18 +308,18 @@ export class HomeController {
         <div class="action-task-left">
           <input type="checkbox" class="task-action-check" data-id="${task.id}" title="Mark completed" style="width: 16px; height: 16px; cursor: pointer; accent-color: var(--status-success);">
           <span class="badge badge-priority-${task.priority}">${priorityObj.icon} ${priorityObj.label}</span>
-          <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-dim);">${task.id}</span>
+          <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-dim);">${task.id}</span>
           <span class="action-task-title">${escapeHtml(task.title)}</span>
         </div>
         <div class="action-task-right">
           ${subtasks.length > 0 ? `
-            <span style="font-size: 0.72rem; color: var(--text-dim);">☑ ${doneCount}/${subtasks.length}</span>
+            <span style="font-size: var(--text-xs); color: var(--text-dim);">☑ ${doneCount}/${subtasks.length}</span>
           ` : ''}
-          <span style="font-size: 0.75rem; padding: 2px 8px; border-radius: var(--radius-xs); background: var(--bg-surface); border: 1px solid var(--border-subtle); color: var(--text-muted);">
+          <span style="font-size: var(--text-xs); padding: 2px 8px; border-radius: var(--radius-xs); background: var(--bg-surface); border: 1px solid var(--border-subtle); color: var(--text-muted);">
             ${escapeHtml(colObj.title)}
           </span>
           ${task.dueDate ? `
-            <span style="font-size: 0.75rem; color: var(--text-muted);">📅 ${task.dueDate}</span>
+            <span style="font-size: var(--text-xs); color: var(--text-muted);">📅 ${task.dueDate}</span>
           ` : ''}
         </div>
       </div>

@@ -34,7 +34,7 @@
 .pomodoro-tab-btn {
   padding: 8px 18px;
   border-radius: var(--radius-full);
-  font-size: 0.85rem;
+  font-size: var(--text-sm);
   font-weight: 600;
   color: var(--text-muted);
   transition: all var(--transition-fast);
@@ -93,7 +93,7 @@
 }
 
 .timer-mode-label {
-  font-size: 0.82rem;
+  font-size: var(--text-xs);
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -111,7 +111,7 @@
 
 .btn-timer-primary {
   padding: 14px 40px;
-  font-size: 1.1rem;
+  font-size: var(--text-lg);
   font-weight: 700;
   border-radius: var(--radius-full);
 }
@@ -126,7 +126,7 @@
 }
 
 .pomodoro-task-picker label {
-  font-size: 0.8rem;
+  font-size: var(--text-xs);
   color: var(--text-muted);
   font-weight: 600;
 }
@@ -136,7 +136,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.88rem;
+  font-size: var(--text-sm);
   color: var(--text-dim);
 }
 

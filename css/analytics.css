@@ -32,7 +32,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.8rem;
+  font-size: var(--text-xs);
   color: var(--text-dim);
   text-transform: uppercase;
   font-weight: 700;
@@ -40,14 +40,14 @@
 }
 
 .stat-card-val {
-  font-size: 2rem;
+  font-size: var(--text-3xl);
   font-weight: 800;
   color: var(--text-main);
-  letter-spacing: -0.03em;
+  letter-spacing: -0.025em;
 }
 
 .stat-card-sub {
-  font-size: 0.8rem;
+  font-size: var(--text-xs);
   color: var(--text-muted);
 }
 
@@ -75,7 +75,7 @@
 }
 
 .chart-card-title {
-  font-size: 1.05rem;
+  font-size: var(--text-lg);
   font-weight: 700;
 }
 
@@ -90,7 +90,7 @@
 .dist-item-top {
   display: flex;
   justify-content: space-between;
-  font-size: 0.82rem;
+  font-size: var(--text-sm);
   font-weight: 600;
 }
 
