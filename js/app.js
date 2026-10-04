@@ -1,7 +1,8 @@
-// TaskForge OS - App Bootstrapper & View Router (Milestone 6)
+// TaskForge OS - App Bootstrapper & View Router
 import { APP_CONFIG, VIEWS } from './config.js';
 import { state, bus, EVENTS } from './state.js';
 import { taskModal } from './taskModal.js';
+import { HomeController } from './home.js';
 import { KanbanBoardController } from './kanban.js';
 import { SprintPlannerController } from './sprint.js';
 import { PomodoroController } from './pomodoro.js';
@@ -10,8 +11,9 @@ import { DataExporterController } from './exporter.js';
 
 class TaskForgeApp {
   constructor() {
-    this.currentView = VIEWS.KANBAN;
+    this.currentView = VIEWS.HOME;
     this.theme = localStorage.getItem('taskforge_theme') || APP_CONFIG.DEFAULT_THEME;
+    this.home = null;
     this.kanbanBoard = null;
     this.sprintPlanner = null;
     this.pomodoro = null;
@@ -33,6 +35,7 @@ class TaskForgeApp {
     this.updateCounters();
 
     // Initialize View Controllers
+    this.home = new HomeController();
     this.kanbanBoard = new KanbanBoardController();
     this.sprintPlanner = new SprintPlannerController();
     this.pomodoro = new PomodoroController();
@@ -119,6 +122,7 @@ class TaskForgeApp {
     const viewTitle = document.getElementById('current-view-title');
     if (viewTitle) {
       const titles = {
+        [VIEWS.HOME]: 'Workspace Overview',
         [VIEWS.KANBAN]: 'Kanban Board',
         [VIEWS.SPRINT]: 'Sprint Planner',
         [VIEWS.POMODORO]: 'Pomodoro Timer',
@@ -191,6 +195,8 @@ class TaskForgeApp {
       } else if (e.key.toLowerCase() === 'n') {
         e.preventDefault();
         taskModal.openNew();
+      } else if (e.key === '0' || e.key.toLowerCase() === 'h') {
+        this.switchView(VIEWS.HOME);
       } else if (e.key === '1') {
         this.switchView(VIEWS.KANBAN);
       } else if (e.key === '2') {

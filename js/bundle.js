@@ -27,6 +27,7 @@
     { id: "lbl-refactor", name: "Refactor", color: "#f59e0b" }
   ];
   var VIEWS = {
+    HOME: "home",
     KANBAN: "kanban",
     SPRINT: "sprint",
     POMODORO: "pomodoro",
@@ -644,6 +645,362 @@
   }
   var taskModal = new TaskModalController();
 
+  // js/home.js
+  var HomeController = class {
+    constructor() {
+      this.container = document.getElementById("home-container");
+      this.init();
+    }
+    init() {
+      bus.subscribe(EVENTS.STATE_INITIALIZED, () => this.render());
+      bus.subscribe(EVENTS.TASKS_CHANGED, () => this.render());
+      bus.subscribe(EVENTS.SPRINT_CHANGED, () => this.render());
+      this.render();
+    }
+    getGreeting() {
+      const hour = (/* @__PURE__ */ new Date()).getHours();
+      if (hour < 12) return "Good Morning";
+      if (hour < 17) return "Good Afternoon";
+      return "Good Evening";
+    }
+    getFormattedDate() {
+      const options = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
+      return (/* @__PURE__ */ new Date()).toLocaleDateString(void 0, options);
+    }
+    render() {
+      if (!this.container) return;
+      const tasks = state.tasks;
+      const activeSprint = state.sprints.find((s) => s.id === state.activeSprintId) || {
+        name: "Sprint 1",
+        goal: "Deliver core workstation MVP",
+        startDate: (/* @__PURE__ */ new Date()).toISOString().split("T")[0],
+        endDate: (/* @__PURE__ */ new Date()).toISOString().split("T")[0]
+      };
+      const sprintTasks = tasks.filter((t) => t.sprintId === state.activeSprintId);
+      const sprintDone = sprintTasks.filter((t) => t.columnId === "col-done").length;
+      const sprintPct = sprintTasks.length > 0 ? Math.round(sprintDone / sprintTasks.length * 100) : 0;
+      const urgentTasks = tasks.filter((t) => (t.priority === "urgent" || t.priority === "high") && t.columnId !== "col-done");
+      const wipTasks = tasks.filter((t) => t.columnId === "col-in-progress" || t.columnId === "col-review");
+      const pomoHistory = storage.getPomodoroHistory();
+      const pomoMinutes = pomoHistory.reduce((acc, p) => acc + (p.durationMinutes || 25), 0);
+      const pomoHours = (pomoMinutes / 60).toFixed(1);
+      const actionItems = tasks.filter((t) => t.columnId !== "col-done").sort((a, b) => {
+        const order = { urgent: 0, high: 1, medium: 2, low: 3 };
+        return (order[a.priority] || 2) - (order[b.priority] || 2);
+      }).slice(0, 5);
+      this.container.innerHTML = `
+      <div class="home-layout-container">
+        <!-- 1. Hero Welcome Banner -->
+        <div class="home-hero-card">
+          <div class="hero-left">
+            <div class="hero-greeting-line">
+              <h1 class="hero-greeting">${this.getGreeting()}, Developer \u{1F44B}</h1>
+              <span class="hero-sprint-pill">
+                <span>\u{1F3C3}</span> ${escapeHtml2(activeSprint.name)} \u2022 Active
+              </span>
+            </div>
+            <p class="hero-subtitle">
+              Welcome to your engineering workstation. Track sprints, manage Kanban cards, and maintain deep focus.
+            </p>
+            <div class="hero-date-badge">
+              <span>\u{1F4C5} ${this.getFormattedDate()}</span>
+            </div>
+          </div>
+          <div class="hero-actions">
+            <button class="btn btn-primary" id="btn-hero-new-task">
+              <span>+</span> New Task
+            </button>
+            <button class="btn btn-secondary" id="btn-hero-start-pomo">
+              <span>\u23F1\uFE0F</span> Quick Focus (25m)
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. Executive KPI Metrics Ribbon -->
+        <div class="home-kpi-grid">
+          <div class="home-kpi-card" data-jump="sprint">
+            <div class="kpi-top">
+              <span>Sprint Velocity</span>
+              <div class="kpi-icon-badge" style="background: rgba(99, 102, 241, 0.15); color: #818cf8;">\u{1F3AF}</div>
+            </div>
+            <div class="kpi-val">${sprintPct}%</div>
+            <div class="kpi-subtext">${sprintDone} of ${sprintTasks.length} tasks completed</div>
+            <div class="progress-track" style="height: 4px; margin-top: 4px;">
+              <div class="progress-fill" style="width: ${sprintPct}%; background: var(--color-primary);"></div>
+            </div>
+          </div>
+
+          <div class="home-kpi-card" data-jump="kanban">
+            <div class="kpi-top">
+              <span>Urgent Attention</span>
+              <div class="kpi-icon-badge" style="background: rgba(239, 68, 68, 0.15); color: #ef4444;">\u{1F525}</div>
+            </div>
+            <div class="kpi-val">${urgentTasks.length}</div>
+            <div class="kpi-subtext">Critical & high priority items</div>
+          </div>
+
+          <div class="home-kpi-card" data-jump="kanban">
+            <div class="kpi-top">
+              <span>Active WIP Load</span>
+              <div class="kpi-icon-badge" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8;">\u26A1</div>
+            </div>
+            <div class="kpi-val">${wipTasks.length}</div>
+            <div class="kpi-subtext">Tasks in progress or review</div>
+          </div>
+
+          <div class="home-kpi-card" data-jump="pomodoro">
+            <div class="kpi-top">
+              <span>Focus Logged</span>
+              <div class="kpi-icon-badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">\u23F1\uFE0F</div>
+            </div>
+            <div class="kpi-val">${pomoHours}h</div>
+            <div class="kpi-subtext">${pomoHistory.length} sessions completed</div>
+          </div>
+        </div>
+
+        <!-- 3. Dashboard Two-Column Grid -->
+        <div class="home-dashboard-grid">
+          <!-- Main Column -->
+          <div class="home-main-col">
+            <!-- Priority Action Items -->
+            <div class="action-items-card">
+              <div class="section-card-header">
+                <h2 class="section-card-title">
+                  <span>\u{1F525}</span> Priority Action Items
+                </h2>
+                <button class="btn btn-outline btn-sm" id="btn-view-all-board">
+                  View Full Board \u2794
+                </button>
+              </div>
+
+              <div class="action-tasks-list">
+                ${actionItems.length === 0 ? `
+                  <div style="padding: 20px; text-align: center; color: var(--text-dim); font-size: 0.88rem;">
+                    \u{1F389} All caught up! No high-priority blockers currently pending.
+                  </div>
+                ` : actionItems.map((task) => this.renderActionTask(task)).join("")}
+              </div>
+            </div>
+
+            <!-- Workstation Quick Launchpad -->
+            <div class="launchpad-card">
+              <div class="section-card-header">
+                <h2 class="section-card-title">
+                  <span>\u{1F680}</span> Workstation Launchpad
+                </h2>
+                <span style="font-size: 0.8rem; color: var(--text-muted);">Instant Navigation</span>
+              </div>
+
+              <div class="launchpad-grid">
+                <div class="launch-tile" data-jump="kanban">
+                  <div class="launch-tile-top">
+                    <div class="launch-tile-icon" style="color: #6366f1;">\u{1F4CB}</div>
+                    <span style="font-size: 0.72rem; color: var(--text-dim);">${tasks.length} tasks</span>
+                  </div>
+                  <h4>Kanban Board</h4>
+                  <p>Drag and drop cards across Backlog, In Progress, Review, and Done stages.</p>
+                  <div class="launch-tile-cta">Open Board \u2794</div>
+                </div>
+
+                <div class="launch-tile" data-jump="sprint">
+                  <div class="launch-tile-top">
+                    <div class="launch-tile-icon" style="color: #38bdf8;">\u{1F3C3}</div>
+                    <span style="font-size: 0.72rem; color: var(--text-dim);">${sprintTasks.length} in sprint</span>
+                  </div>
+                  <h4>Sprint Planner</h4>
+                  <p>Manage sprint capacity, shift items from product backlog, track sprint goals.</p>
+                  <div class="launch-tile-cta">View Sprint \u2794</div>
+                </div>
+
+                <div class="launch-tile" data-jump="pomodoro">
+                  <div class="launch-tile-top">
+                    <div class="launch-tile-icon" style="color: #f59e0b;">\u23F1\uFE0F</div>
+                    <span style="font-size: 0.72rem; color: var(--text-dim);">25m / 5m</span>
+                  </div>
+                  <h4>Pomodoro Timer</h4>
+                  <p>Block distractions with structured intervals and synthesized audio chimes.</p>
+                  <div class="launch-tile-cta">Start Timer \u2794</div>
+                </div>
+
+                <div class="launch-tile" data-jump="analytics">
+                  <div class="launch-tile-top">
+                    <div class="launch-tile-icon" style="color: #10b981;">\u{1F4CA}</div>
+                    <span style="font-size: 0.72rem; color: var(--text-dim);">Live metrics</span>
+                  </div>
+                  <h4>Velocity Analytics</h4>
+                  <p>Inspect team throughput, priority distributions, and pipeline bottlenecks.</p>
+                  <div class="launch-tile-cta">Inspect Velocity \u2794</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Side Column -->
+          <div class="home-side-col">
+            <!-- Active Sprint Radar -->
+            <div class="home-side-card">
+              <div class="section-card-header">
+                <h3 style="font-size: 1rem; font-weight: 700;">\u{1F3AF} Sprint Radar</h3>
+                <span class="badge badge-priority-low">Active</span>
+              </div>
+              <p style="font-size: 0.82rem; color: var(--text-muted);">
+                ${escapeHtml2(activeSprint.goal)}
+              </p>
+
+              <div class="radar-pipeline-rows">
+                ${state.columns.map((col) => {
+        const count = tasks.filter((t) => t.columnId === col.id).length;
+        return `
+                    <div class="radar-row">
+                      <div class="radar-row-left">
+                        <span class="column-color-indicator" style="background-color: ${col.color};"></span>
+                        <span>${escapeHtml2(col.title)}</span>
+                      </div>
+                      <span class="radar-count">${count}</span>
+                    </div>
+                  `;
+      }).join("")}
+              </div>
+            </div>
+
+            <!-- Recent Activity Stream -->
+            <div class="home-side-card">
+              <div class="section-card-header">
+                <h3 style="font-size: 1rem; font-weight: 700;">\u{1F4DC} Recent Activity</h3>
+                <span style="font-size: 0.72rem; color: var(--text-dim);">Live Log</span>
+              </div>
+              <div class="activity-feed-list">
+                <div class="feed-item">
+                  <div class="feed-bullet"></div>
+                  <div class="feed-content">
+                    <strong>TASK-101</strong> updated priority to Urgent
+                    <span>Today \u2022 In Progress</span>
+                  </div>
+                </div>
+                <div class="feed-item">
+                  <div class="feed-bullet" style="background: var(--status-success); box-shadow: 0 0 6px var(--status-success);"></div>
+                  <div class="feed-content">
+                    <strong>TASK-104</strong> moved to Completed
+                    <span>Yesterday \u2022 Done</span>
+                  </div>
+                </div>
+                <div class="feed-item">
+                  <div class="feed-bullet" style="background: var(--color-accent); box-shadow: 0 0 6px var(--color-accent);"></div>
+                  <div class="feed-content">
+                    <strong>Sprint 1</strong> milestone initialized
+                    <span>3 days ago \u2022 Milestone</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pro Shortcuts Card -->
+            <div class="home-side-card" style="background: linear-gradient(135deg, var(--bg-surface), var(--bg-surface-elevated));">
+              <div class="section-card-header">
+                <h3 style="font-size: 0.95rem; font-weight: 700;">\u26A1 Pro Shortcuts</h3>
+                <span>\u2328\uFE0F</span>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.8rem; color: var(--text-muted);">
+                <div style="display: flex; justify-content: space-between;">
+                  <span>New Task</span> <kbd style="padding: 1px 6px; background: var(--bg-input); border-radius: 3px;">N</kbd>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                  <span>Global Search</span> <kbd style="padding: 1px 6px; background: var(--bg-input); border-radius: 3px;">Ctrl+K</kbd>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                  <span>Kanban Board</span> <kbd style="padding: 1px 6px; background: var(--bg-input); border-radius: 3px;">1</kbd>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                  <span>Pomodoro Timer</span> <kbd style="padding: 1px 6px; background: var(--bg-input); border-radius: 3px;">3</kbd>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+      this.bindEvents();
+    }
+    renderActionTask(task) {
+      const priorityObj = Object.values(PRIORITIES).find((p) => p.id === task.priority) || PRIORITIES.MEDIUM;
+      const colObj = state.columns.find((c) => c.id === task.columnId) || { title: task.columnId };
+      const subtasks = task.subtasks || [];
+      const doneCount = subtasks.filter((s) => s.completed).length;
+      return `
+      <div class="action-task-item" data-id="${task.id}">
+        <div class="action-task-left">
+          <input type="checkbox" class="task-action-check" data-id="${task.id}" title="Mark completed" style="width: 16px; height: 16px; cursor: pointer; accent-color: var(--status-success);">
+          <span class="badge badge-priority-${task.priority}">${priorityObj.icon} ${priorityObj.label}</span>
+          <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-dim);">${task.id}</span>
+          <span class="action-task-title">${escapeHtml2(task.title)}</span>
+        </div>
+        <div class="action-task-right">
+          ${subtasks.length > 0 ? `
+            <span style="font-size: 0.72rem; color: var(--text-dim);">\u2611 ${doneCount}/${subtasks.length}</span>
+          ` : ""}
+          <span style="font-size: 0.75rem; padding: 2px 8px; border-radius: var(--radius-xs); background: var(--bg-surface); border: 1px solid var(--border-subtle); color: var(--text-muted);">
+            ${escapeHtml2(colObj.title)}
+          </span>
+          ${task.dueDate ? `
+            <span style="font-size: 0.75rem; color: var(--text-muted);">\u{1F4C5} ${task.dueDate}</span>
+          ` : ""}
+        </div>
+      </div>
+    `;
+    }
+    bindEvents() {
+      const heroNewTask = document.getElementById("btn-hero-new-task");
+      if (heroNewTask) {
+        heroNewTask.addEventListener("click", () => taskModal.openNew());
+      }
+      const heroStartPomo = document.getElementById("btn-hero-start-pomo");
+      if (heroStartPomo) {
+        heroStartPomo.addEventListener("click", () => {
+          if (window.TaskForge) window.TaskForge.switchView(VIEWS.POMODORO);
+        });
+      }
+      const viewAllBoard = document.getElementById("btn-view-all-board");
+      if (viewAllBoard) {
+        viewAllBoard.addEventListener("click", () => {
+          if (window.TaskForge) window.TaskForge.switchView(VIEWS.KANBAN);
+        });
+      }
+      this.container.querySelectorAll("[data-jump]").forEach((el) => {
+        el.addEventListener("click", () => {
+          const targetView = el.dataset.jump;
+          if (window.TaskForge && targetView) {
+            window.TaskForge.switchView(targetView);
+          }
+        });
+      });
+      this.container.querySelectorAll(".action-task-item").forEach((item) => {
+        item.addEventListener("click", (e) => {
+          if (e.target.classList.contains("task-action-check")) return;
+          const taskId = item.dataset.id;
+          if (taskId) taskModal.open(taskId);
+        });
+      });
+      this.container.querySelectorAll(".task-action-check").forEach((cb) => {
+        cb.addEventListener("click", (e) => {
+          e.stopPropagation();
+        });
+        cb.addEventListener("change", (e) => {
+          const taskId = cb.dataset.id;
+          if (e.target.checked && taskId) {
+            state.moveTask(taskId, "col-done");
+            if (window.TaskForge) window.TaskForge.showToast(`Task ${taskId} completed!`, "success");
+          }
+        });
+      });
+    }
+  };
+  function escapeHtml2(text) {
+    if (!text) return "";
+    const d = document.createElement("div");
+    d.textContent = text;
+    return d.innerHTML;
+  }
+
   // js/kanban.js
   var KanbanBoardController = class {
     constructor() {
@@ -723,7 +1080,7 @@
         <div class="column-header">
           <div class="column-title-group">
             <span class="column-color-indicator" style="background-color: ${col.color};"></span>
-            <span class="column-title">${escapeHtml2(col.title)}</span>
+            <span class="column-title">${escapeHtml3(col.title)}</span>
             <span class="column-count-badge ${isOverLimit ? "badge-priority-urgent" : ""}">
               ${tasks.length}${col.limit ? ` / ${col.limit}` : ""}
             </span>
@@ -782,8 +1139,8 @@
         </span>
       </div>
 
-      <h3 class="card-title">${escapeHtml2(task.title)}</h3>
-      ${task.description ? `<p class="card-desc-snippet">${escapeHtml2(task.description)}</p>` : ""}
+      <h3 class="card-title">${escapeHtml3(task.title)}</h3>
+      ${task.description ? `<p class="card-desc-snippet">${escapeHtml3(task.description)}</p>` : ""}
 
       ${subtasks.length > 0 ? `
         <div class="subtasks-progress-wrap">
@@ -853,7 +1210,7 @@
       });
     }
   };
-  function escapeHtml2(text) {
+  function escapeHtml3(text) {
     if (!text) return "";
     const d = document.createElement("div");
     d.textContent = text;
@@ -899,8 +1256,8 @@
               <span class="sprint-badge-status">${sprint.status}</span>
               <span style="font-size: 0.8rem; color: var(--text-muted);">\u{1F4C5} ${sprint.startDate} \u2014 ${sprint.endDate}</span>
             </div>
-            <h2 class="sprint-title">${escapeHtml3(sprint.name)}</h2>
-            <p class="sprint-goal-text">\u{1F3AF} <strong>Goal:</strong> ${escapeHtml3(sprint.goal)}</p>
+            <h2 class="sprint-title">${escapeHtml4(sprint.name)}</h2>
+            <p class="sprint-goal-text">\u{1F3AF} <strong>Goal:</strong> ${escapeHtml4(sprint.goal)}</p>
           </div>
           <div>
             <button class="btn btn-primary" id="btn-create-task-sprint">+ Add Task to Sprint</button>
@@ -940,7 +1297,7 @@
       <!-- Active Sprint Tasks Section -->
       <div class="backlog-section">
         <div class="backlog-header">
-          <h3 style="font-size: 1.1rem; font-weight: 700;">Tasks in ${escapeHtml3(sprint.name)}</h3>
+          <h3 style="font-size: 1.1rem; font-weight: 700;">Tasks in ${escapeHtml4(sprint.name)}</h3>
           <span style="font-size: 0.82rem; color: var(--text-muted);">${sprintTasks.length} items</span>
         </div>
         <div class="backlog-list">
@@ -977,7 +1334,7 @@
         <div class="backlog-item-left">
           <span class="badge badge-priority-${task.priority}">${priorityObj.icon} ${priorityObj.label}</span>
           <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-dim);">${task.id}</span>
-          <span class="backlog-item-title" style="cursor: pointer;">${escapeHtml3(task.title)}</span>
+          <span class="backlog-item-title" style="cursor: pointer;">${escapeHtml4(task.title)}</span>
         </div>
 
         <div class="backlog-item-right">
@@ -1035,7 +1392,7 @@
       });
     }
   };
-  function escapeHtml3(text) {
+  function escapeHtml4(text) {
     if (!text) return "";
     const d = document.createElement("div");
     d.textContent = text;
@@ -1110,7 +1467,7 @@
           <select id="pomodoro-task-select" class="form-control">
             <option value="">-- No specific task --</option>
             ${inProgressTasks.map((t) => `
-              <option value="${t.id}" ${this.selectedTaskId === t.id ? "selected" : ""}>${t.id}: ${escapeHtml4(t.title)}</option>
+              <option value="${t.id}" ${this.selectedTaskId === t.id ? "selected" : ""}>${t.id}: ${escapeHtml5(t.title)}</option>
             `).join("")}
           </select>
         </div>
@@ -1265,7 +1622,7 @@
       }
     }
   };
-  function escapeHtml4(text) {
+  function escapeHtml5(text) {
     if (!text) return "";
     const d = document.createElement("div");
     d.textContent = text;
@@ -1576,8 +1933,9 @@
   // js/app.js
   var TaskForgeApp = class {
     constructor() {
-      this.currentView = VIEWS.KANBAN;
+      this.currentView = VIEWS.HOME;
       this.theme = localStorage.getItem("taskforge_theme") || APP_CONFIG.DEFAULT_THEME;
+      this.home = null;
       this.kanbanBoard = null;
       this.sprintPlanner = null;
       this.pomodoro = null;
@@ -1596,6 +1954,7 @@
       this.bindSearchInput();
       this.bindStateListeners();
       this.updateCounters();
+      this.home = new HomeController();
       this.kanbanBoard = new KanbanBoardController();
       this.sprintPlanner = new SprintPlannerController();
       this.pomodoro = new PomodoroController();
@@ -1666,6 +2025,7 @@
       const viewTitle = document.getElementById("current-view-title");
       if (viewTitle) {
         const titles = {
+          [VIEWS.HOME]: "Workspace Overview",
           [VIEWS.KANBAN]: "Kanban Board",
           [VIEWS.SPRINT]: "Sprint Planner",
           [VIEWS.POMODORO]: "Pomodoro Timer",
@@ -1726,6 +2086,8 @@
         } else if (e.key.toLowerCase() === "n") {
           e.preventDefault();
           taskModal.openNew();
+        } else if (e.key === "0" || e.key.toLowerCase() === "h") {
+          this.switchView(VIEWS.HOME);
         } else if (e.key === "1") {
           this.switchView(VIEWS.KANBAN);
         } else if (e.key === "2") {

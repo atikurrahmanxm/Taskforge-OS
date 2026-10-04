@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="css/sprint.css">
   <link rel="stylesheet" href="css/pomodoro.css">
   <link rel="stylesheet" href="css/analytics.css">
+  <link rel="stylesheet" href="css/home.css">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,7 +33,13 @@
 
       <nav class="sidebar-nav">
         <div class="nav-label">Workspace</div>
-        <button class="nav-item active" data-view="kanban">
+        <button class="nav-item active" data-view="home">
+          <span class="nav-icon">🏠</span>
+          <span>Overview</span>
+          <span class="nav-badge" id="nav-count-home">Live</span>
+        </button>
+
+        <button class="nav-item" data-view="kanban">
           <span class="nav-icon">📋</span>
           <span>Kanban Board</span>
           <span class="nav-badge" id="nav-count-kanban">0</span>
@@ -79,7 +86,7 @@
           <div class="breadcrumbs">
             <span>Workspace</span>
             <span>/</span>
-            <span class="current" id="current-view-title">Kanban Board</span>
+            <span class="current" id="current-view-title">Workspace Overview</span>
           </div>
 
           <div class="search-container">
@@ -102,8 +109,15 @@
 
       <!-- View Containers Viewport -->
       <div class="views-viewport">
+        <!-- 0. Workspace Overview / Home View -->
+        <section id="view-home" class="view-section active">
+          <div class="home-layout-container" id="home-container">
+            <!-- Rendered dynamically by js/home.js -->
+          </div>
+        </section>
+
         <!-- 1. Kanban Board View -->
-        <section id="view-kanban" class="view-section active">
+        <section id="view-kanban" class="view-section">
           <div class="view-toolbar" id="kanban-toolbar">
             <div class="toolbar-left">
               <h1 class="view-heading">Engineering Sprint Board</h1>
@@ -181,6 +195,7 @@
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 0.88rem;">
           <div><kbd style="padding: 2px 6px; background: var(--bg-surface-elevated); border-radius: 4px;">N</kbd> New Task</div>
           <div><kbd style="padding: 2px 6px; background: var(--bg-surface-elevated); border-radius: 4px;">Ctrl+K</kbd> Global Search</div>
+          <div><kbd style="padding: 2px 6px; background: var(--bg-surface-elevated); border-radius: 4px;">0 / H</kbd> Overview (Home)</div>
           <div><kbd style="padding: 2px 6px; background: var(--bg-surface-elevated); border-radius: 4px;">1</kbd> Kanban View</div>
           <div><kbd style="padding: 2px 6px; background: var(--bg-surface-elevated); border-radius: 4px;">2</kbd> Sprint Planner</div>
           <div><kbd style="padding: 2px 6px; background: var(--bg-surface-elevated); border-radius: 4px;">3</kbd> Pomodoro Timer</div>

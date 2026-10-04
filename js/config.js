@@ -31,6 +31,7 @@ export const DEFAULT_LABELS = [
 ];
 
 export const VIEWS = {
+  HOME: 'home',
   KANBAN: 'kanban',
   SPRINT: 'sprint',
   POMODORO: 'pomodoro',
