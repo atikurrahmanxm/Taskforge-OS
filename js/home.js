@@ -287,6 +287,9 @@ export class HomeController {
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                   <span>Pomodoro Timer</span> <kbd>3</kbd>
                 </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span>Font Studio</span> <kbd>T</kbd>
+                </div>
               </div>
             </div>
           </div>

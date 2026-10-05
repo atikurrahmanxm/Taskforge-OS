@@ -44,3 +44,23 @@ export const POMODORO_MODES = {
   SHORT_BREAK: { id: 'short', label: 'Short Break', duration: 5 * 60 },
   LONG_BREAK: { id: 'long', label: 'Long Break', duration: 15 * 60 },
 };
+
+export const FONTS_CONFIG = {
+  SANS_OPTIONS: [
+    { id: 'geist', name: 'Geist', desc: 'Vercel / Next.js modern signature developer font' },
+    { id: 'inter', name: 'Inter', desc: 'Linear, Figma & GitHub gold-standard UI font' },
+    { id: 'jakarta', name: 'Plus Jakarta Sans', desc: 'Sleek geometric SaaS & Raycast aesthetic' },
+    { id: 'system', name: 'System Native', desc: 'Apple SF Pro / Segoe UI / Roboto OS native' },
+  ],
+  MONO_OPTIONS: [
+    { id: 'geist', name: 'Geist Mono', desc: 'Vercel developer code font with crisp tabular numbers' },
+    { id: 'jetbrains', name: 'JetBrains Mono', desc: 'VS Code & JetBrains IDE engineering favorite' },
+    { id: 'fira', name: 'Fira Code', desc: 'Mozilla classic developer font with programming ligatures' },
+    { id: 'system', name: 'System Mono', desc: 'Consolas / SFMono / Menlo native' },
+  ],
+  DENSITY_OPTIONS: [
+    { id: 'compact', name: 'Compact', desc: 'Dense high-efficiency Linear mode' },
+    { id: 'comfortable', name: 'Comfortable', desc: 'Balanced default readability' },
+    { id: 'spacious', name: 'Spacious', desc: 'Relaxed larger typography' },
+  ],
+};

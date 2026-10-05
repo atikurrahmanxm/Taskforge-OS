@@ -1,6 +1,7 @@
 // TaskForge OS - App Bootstrapper & View Router
 import { APP_CONFIG, VIEWS } from './config.js';
 import { state, bus, EVENTS } from './state.js';
+import { storage } from './storage.js';
 import { taskModal } from './taskModal.js';
 import { HomeController } from './home.js';
 import { KanbanBoardController } from './kanban.js';
@@ -24,8 +25,10 @@ class TaskForgeApp {
 
   init() {
     this.applyTheme(this.theme);
+    this.applyFontSettings();
     this.bindNavigation();
     this.bindThemeToggle();
+    this.bindFontSettingsButton();
     this.bindShortcutsModal();
     this.bindDialogFallbacks();
     this.bindGlobalShortcuts();
@@ -100,6 +103,35 @@ class TaskForgeApp {
     const btn = document.getElementById('theme-toggle-btn');
     if (btn) {
       btn.addEventListener('click', () => this.toggleTheme());
+    }
+  }
+
+  // Typography & Font System
+  applyFontSettings() {
+    const settings = storage.getSettings() || {};
+    const fontSans = settings.fontSans || 'geist';
+    const fontMono = settings.fontMono || 'geist';
+    const fontSize = settings.fontSize || 'comfortable';
+
+    document.documentElement.setAttribute('data-font', fontSans);
+    document.documentElement.setAttribute('data-mono', fontMono);
+    document.documentElement.setAttribute('data-font-size', fontSize);
+  }
+
+  bindFontSettingsButton() {
+    const btn = document.getElementById('font-settings-btn');
+    if (btn) {
+      btn.addEventListener('click', () => {
+        this.switchView(VIEWS.SETTINGS);
+        const card = document.getElementById('settings-typography-card');
+        if (card) {
+          card.scrollIntoView({ behavior: 'smooth' });
+          card.style.borderColor = 'var(--color-primary)';
+          setTimeout(() => {
+            card.style.borderColor = 'var(--border-default)';
+          }, 1500);
+        }
+      });
     }
   }
 
@@ -205,6 +237,10 @@ class TaskForgeApp {
         this.switchView(VIEWS.POMODORO);
       } else if (e.key === '4') {
         this.switchView(VIEWS.ANALYTICS);
+      } else if (e.key === '5' || e.key.toLowerCase() === 't') {
+        this.switchView(VIEWS.SETTINGS);
+        const card = document.getElementById('settings-typography-card');
+        if (card) card.scrollIntoView({ behavior: 'smooth' });
       }
     });
   }
