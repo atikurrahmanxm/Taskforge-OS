@@ -66,27 +66,63 @@ export class HomeController {
       <div class="home-layout-container">
         <!-- 1. Hero Welcome Banner -->
         <div class="home-hero-card">
-          <div class="hero-left">
-            <div class="hero-greeting-line">
-              <h1 class="hero-greeting">${this.getGreeting()}, Developer 👋</h1>
-              <span class="hero-sprint-pill">
-                <span>🏃</span> ${escapeHtml(activeSprint.name)} • Active
-              </span>
+          <div class="hero-top-row">
+            <div class="hero-meta-badge">
+              <span class="hero-live-dot"></span>
+              <span>ENGINEERING WORKSTATION ACTIVE</span>
+              <span class="hero-meta-separator">•</span>
+              <span class="hero-meta-date">📅 ${this.getFormattedDate()}</span>
             </div>
-            <p class="hero-subtitle">
-              Welcome to your engineering workstation. Track sprints, manage Kanban cards, and maintain deep focus.
-            </p>
-            <div class="hero-date-badge">
-              <span>📅 ${this.getFormattedDate()}</span>
+
+            <div class="hero-actions">
+              <button class="btn btn-primary" id="btn-hero-new-task">
+                <span>+</span> New Task
+              </button>
+              <button class="btn btn-secondary" id="btn-hero-start-pomo">
+                <span>⏱️</span> Quick Focus (25m)
+              </button>
             </div>
           </div>
-          <div class="hero-actions">
-            <button class="btn btn-primary" id="btn-hero-new-task">
-              <span>+</span> New Task
-            </button>
-            <button class="btn btn-secondary" id="btn-hero-start-pomo">
-              <span>⏱️</span> Quick Focus (25m)
-            </button>
+
+          <div class="hero-main-content">
+            <h1 class="hero-greeting">
+              ${this.getGreeting()}, <span class="hero-greeting-name">Developer</span> 👋
+            </h1>
+            <p class="hero-subtitle">
+              Orchestrate sprints, track lifecycle boards, and maintain deep developer focus.
+            </p>
+          </div>
+
+          <!-- Interactive Active Sprint Showcase Bar -->
+          <div class="hero-sprint-bar" data-jump="sprint" title="Click to open Sprint Planner">
+            <div class="sprint-bar-left">
+              <div class="sprint-bar-icon-box">🏃</div>
+              <div class="sprint-bar-details">
+                <div class="sprint-bar-heading">
+                  <span class="sprint-bar-name">${escapeHtml(activeSprint.name)}</span>
+                  <span class="sprint-status-tag">
+                    <span class="sprint-status-pulse"></span>
+                    ACTIVE SPRINT
+                  </span>
+                </div>
+                <div class="sprint-bar-meta">
+                  <span class="sprint-bar-goal">🎯 ${escapeHtml(activeSprint.goal)}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="sprint-bar-right">
+              <div class="sprint-progress-stat">
+                <div class="sprint-stat-row">
+                  <span class="sprint-stat-label">Velocity</span>
+                  <span class="sprint-stat-value">${sprintPct}% (${sprintDone}/${sprintTasks.length} tasks)</span>
+                </div>
+                <div class="sprint-progress-track">
+                  <div class="sprint-progress-bar" style="width: ${sprintPct}%;"></div>
+                </div>
+              </div>
+              <div class="sprint-bar-arrow">➔</div>
+            </div>
           </div>
         </div>
 

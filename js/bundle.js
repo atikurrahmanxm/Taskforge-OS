@@ -711,27 +711,63 @@
       <div class="home-layout-container">
         <!-- 1. Hero Welcome Banner -->
         <div class="home-hero-card">
-          <div class="hero-left">
-            <div class="hero-greeting-line">
-              <h1 class="hero-greeting">${this.getGreeting()}, Developer \u{1F44B}</h1>
-              <span class="hero-sprint-pill">
-                <span>\u{1F3C3}</span> ${escapeHtml2(activeSprint.name)} \u2022 Active
-              </span>
+          <div class="hero-top-row">
+            <div class="hero-meta-badge">
+              <span class="hero-live-dot"></span>
+              <span>ENGINEERING WORKSTATION ACTIVE</span>
+              <span class="hero-meta-separator">\u2022</span>
+              <span class="hero-meta-date">\u{1F4C5} ${this.getFormattedDate()}</span>
             </div>
-            <p class="hero-subtitle">
-              Welcome to your engineering workstation. Track sprints, manage Kanban cards, and maintain deep focus.
-            </p>
-            <div class="hero-date-badge">
-              <span>\u{1F4C5} ${this.getFormattedDate()}</span>
+
+            <div class="hero-actions">
+              <button class="btn btn-primary" id="btn-hero-new-task">
+                <span>+</span> New Task
+              </button>
+              <button class="btn btn-secondary" id="btn-hero-start-pomo">
+                <span>\u23F1\uFE0F</span> Quick Focus (25m)
+              </button>
             </div>
           </div>
-          <div class="hero-actions">
-            <button class="btn btn-primary" id="btn-hero-new-task">
-              <span>+</span> New Task
-            </button>
-            <button class="btn btn-secondary" id="btn-hero-start-pomo">
-              <span>\u23F1\uFE0F</span> Quick Focus (25m)
-            </button>
+
+          <div class="hero-main-content">
+            <h1 class="hero-greeting">
+              ${this.getGreeting()}, <span class="hero-greeting-name">Developer</span> \u{1F44B}
+            </h1>
+            <p class="hero-subtitle">
+              Orchestrate sprints, track lifecycle boards, and maintain deep developer focus.
+            </p>
+          </div>
+
+          <!-- Interactive Active Sprint Showcase Bar -->
+          <div class="hero-sprint-bar" data-jump="sprint" title="Click to open Sprint Planner">
+            <div class="sprint-bar-left">
+              <div class="sprint-bar-icon-box">\u{1F3C3}</div>
+              <div class="sprint-bar-details">
+                <div class="sprint-bar-heading">
+                  <span class="sprint-bar-name">${escapeHtml2(activeSprint.name)}</span>
+                  <span class="sprint-status-tag">
+                    <span class="sprint-status-pulse"></span>
+                    ACTIVE SPRINT
+                  </span>
+                </div>
+                <div class="sprint-bar-meta">
+                  <span class="sprint-bar-goal">\u{1F3AF} ${escapeHtml2(activeSprint.goal)}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="sprint-bar-right">
+              <div class="sprint-progress-stat">
+                <div class="sprint-stat-row">
+                  <span class="sprint-stat-label">Velocity</span>
+                  <span class="sprint-stat-value">${sprintPct}% (${sprintDone}/${sprintTasks.length} tasks)</span>
+                </div>
+                <div class="sprint-progress-track">
+                  <div class="sprint-progress-bar" style="width: ${sprintPct}%;"></div>
+                </div>
+              </div>
+              <div class="sprint-bar-arrow">\u2794</div>
+            </div>
           </div>
         </div>
 
